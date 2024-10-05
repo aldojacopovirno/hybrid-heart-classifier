@@ -1,5 +1,14 @@
 **Goals**
 
+Il progetto si basa sul MultiJet primary dataset in AOD format from RunB of 2010 fornito da CMS (Compact Muon Solenoid), uno degli esperimenti al CERN. Questo dataset contiene informazioni su eventi che generano jets, i quali sono prodotti da collisioni tra particelle ad alta energia. L’analisi si concentrerà su variabili cinematiche cruciali come MR (razor variable), Rsq, HT e MET, che sono fondamentali nella ricerca di segnali di particelle supersimmetriche e di altri fenomeni oltre il Modello Standard della fisica delle particelle.
+
+Il progetto ha come obiettivo principale quello di condurre un’analisi approfondita dei parametri cinematici presenti nel dataset, utilizzando tecniche statistiche e di machine learning per:
+1.	Analisi Esplorativa dei Dati (EDA): Caratterizzare la distribuzione delle variabili MR, Rsq, HT e MET, identificando eventuali pattern e anomalie.
+2.	Modellazione di Regressione: Sviluppare modelli di regressione per prevedere i valori di MR e Rsq sulla base di altre variabili cinematiche come HT, MET, nJets e nBJets.
+3.	Rilevamento di Anomalie: Applicare tecniche avanzate di rilevamento delle anomalie per identificare eventi con valori estremi di MET e HT, suggerendo potenziali segnali di nuove particelle.
+4.	Confronto Statistico: Eseguire un confronto statistico tra eventi ad alto e basso MET per identificare differenze significative nelle altre variabili cinematiche.
+5.	Test d’Ipotesi: Testare l’ipotesi che alcuni eventi con valori estremi di MR e Rsq possano essere attribuiti a particelle supersimmetriche, confrontando le distribuzioni osservate con quelle attese dal Modello Standard.
+
 1. **Analisi Esplorativa dei Dati (EDA) dei Parametri Cinematici**
 
 	- Descrizione: 
