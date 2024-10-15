@@ -1,5 +1,7 @@
 ### Roadmap EDA per Dataset sulle Malattie Cardiache (Sviluppo in R)
 
+L’obiettivo principale di questo progetto è condurre un’analisi esplorativa dei dati (EDA) su un dataset relativo a malattie cardiache, al fine di stimare la probabilità di sviluppare una malattia cardiaca in base a variabili cliniche e demografiche. Attraverso l’analisi delle relazioni tra le variabili, l’identificazione di schemi significativi e la valutazione delle correlazioni, il progetto mira a fornire una comprensione approfondita dei fattori che contribuiscono al rischio di malattia cardiaca. In seguito all’EDA, verrà effettuata un’analisi bivariata per esaminare le interazioni tra variabili numeriche e categoriali e il target, culminando nella presentazione dei risultati in modo chiaro e utile per future decisioni cliniche e di ricerca.
+
 #### 1. **Setup Iniziale del Progetto**
 - **Caricamento delle Librerie**: Installare e caricare le librerie principali come `tidyverse`, `ggplot2`, `dplyr`, `readr`, e `summarytools` per la manipolazione dei dati e la visualizzazione.
 - **Caricamento del Dataset**: Importare il dataset in R utilizzando funzioni come `read.csv()` o `read.table()` e visualizzare le prime righe con `head()` per una panoramica iniziale.
