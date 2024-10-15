@@ -1,5 +1,3 @@
-setwd('/Users/aldojacopo/Library/CloudStorage/OneDrive-Uniparthenope/SIAFA 2 - Analisi Espolarativa/ProjectWorkR')
-
 # Load necessary libraries
 library(readr)
 library(labstatR)
