@@ -1,0 +1,203 @@
+\documentclass{beamer}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usetheme{Madrid}
+\usecolortheme{whale}
+
+\title{Analisi Statistica del Dataset Heart Disease UCI}
+\author{Il Tuo Nome}
+\institute{Dipartimento di Statistica, Università XYZ}
+\date{\today}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Indice}
+\tableofcontents
+\end{frame}
+
+\section{Introduzione}
+
+\begin{frame}
+\frametitle{Introduzione}
+\begin{itemize}
+    \item \textbf{Obiettivo}: Analizzare il dataset Heart Disease UCI per identificare pattern e correlazioni significative
+    \item \textbf{Dataset}: 303 osservazioni, 14 variabili
+    \item \textbf{Variabile target}: Presenza di malattia cardiaca (num)
+    \item \textbf{Metodologia}: Analisi esplorativa dei dati (EDA) utilizzando R
+    \item \textbf{Focus}:
+    \begin{itemize}
+        \item Preparazione e pulizia dei dati
+        \item Analisi statistica descrittiva
+        \item Visualizzazione delle distribuzioni
+        \item Identificazione di potenziali predittori di malattia cardiaca
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Metodologia}
+
+\begin{frame}
+\frametitle{Metodologia}
+\begin{enumerate}
+    \item \textbf{Caricamento e ispezione dei dati}:
+    \begin{itemize}
+        \item Utilizzo di \texttt{read\_csv()} per importare il dataset
+        \item Esame della struttura con \texttt{str()} e \texttt{head()}
+    \end{itemize}
+    \item \textbf{Gestione dei valori mancanti}:
+    \begin{itemize}
+        \item Identificazione con \texttt{is.na()}
+        \item Imputazione KNN con la funzione \texttt{kNN()} del pacchetto VIM
+    \end{itemize}
+    \item \textbf{Analisi statistica descrittiva}:
+    \begin{itemize}
+        \item Calcolo di statistiche riepilogative per variabili numeriche
+        \item Analisi di frequenza per variabili categoriche
+    \end{itemize}
+    \item \textbf{Visualizzazione dei dati}:
+    \begin{itemize}
+        \item Utilizzo di ggplot2 per creare grafici informativi
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\section{Preparazione dei Dati}
+
+\begin{frame}
+\frametitle{Preparazione dei Dati}
+\begin{itemize}
+    \item \textbf{Conversione dei tipi di dati}:
+    \begin{itemize}
+        \item Variabili categoriche convertite in fattori: \texttt{ca}, \texttt{num}
+    \end{itemize}
+    \item \textbf{Gestione dei valori mancanti}:
+    \begin{itemize}
+        \item Utilizzo dell'imputazione KNN:
+        \[\text{KNN}_k(x) = \frac{1}{k}\sum_{i \in N_k(x)} y_i\]
+        dove $N_k(x)$ sono i $k$ vicini più prossimi di $x$
+    \end{itemize}
+    \item \textbf{Verifica dell'integrità dei dati}:
+    \begin{itemize}
+        \item Controllo dei range e delle distribuzioni delle variabili
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Analisi Statistica}
+
+\begin{frame}
+\frametitle{Analisi Statistica - Misure di Tendenza Centrale e Dispersione}
+Per ogni variabile numerica $X$, calcoliamo:
+\begin{itemize}
+    \item \textbf{Media}: $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$
+    \item \textbf{Mediana}: valore centrale della distribuzione ordinata
+    \item \textbf{Deviazione Standard}: $s = \sqrt{\frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2}$
+    \item \textbf{Varianza}: $s^2 = \frac{1}{n-1}\sum_{i=1}^n (X_i - \bar{X})^2$
+    \item \textbf{Range Interquartile (IQR)}: $IQR = Q_3 - Q_1$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Analisi Statistica - Misure di Forma}
+Per valutare la forma delle distribuzioni:
+\begin{itemize}
+    \item \textbf{Skewness}: 
+    \[g_1 = \frac{m_3}{m_2^{3/2}} = \frac{\frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^3}{s^3}\]
+    dove $m_k$ è il k-esimo momento centrale
+    \item \textbf{Kurtosis}: 
+    \[g_2 = \frac{m_4}{m_2^2} - 3 = \frac{\frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^4}{s^4} - 3\]
+\end{itemize}
+\end{frame}
+
+\section{Visualizzazione dei Dati}
+
+\begin{frame}
+\frametitle{Visualizzazione dei Dati - Variabili Quantitative}
+Per ogni variabile quantitativa:
+\begin{itemize}
+    \item \textbf{Istogramma con curva di densità normale}:
+    \begin{itemize}
+        \item Funzione di densità normale: 
+        \[f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\]
+    \end{itemize}
+    \item \textbf{Boxplot}: per identificare outliers e asimmetrie
+    \item \textbf{Q-Q plot}: per valutare la normalità della distribuzione
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Visualizzazione dei Dati - Variabili Categoriche}
+Per le variabili categoriche:
+\begin{itemize}
+    \item \textbf{Diagrammi a barre}: per visualizzare le frequenze relative
+    \item \textbf{Tabelle di contingenza}: per esaminare le relazioni tra variabili categoriche
+    \item \textbf{Test Chi-quadrato}: per valutare l'indipendenza tra variabili categoriche
+    \[\chi^2 = \sum_{i=1}^r \sum_{j=1}^c \frac{(O_{ij} - E_{ij})^2}{E_{ij}}\]
+    dove $O_{ij}$ sono le frequenze osservate e $E_{ij}$ quelle attese
+\end{itemize}
+\end{frame}
+
+\section{Risultati Preliminari}
+
+\begin{frame}
+\frametitle{Risultati Preliminari}
+\begin{itemize}
+    \item \textbf{Distribuzione delle malattie cardiache}:
+    \begin{itemize}
+        \item Percentuale di pazienti con malattia cardiaca
+        \item Differenze di genere nella prevalenza
+    \end{itemize}
+    \item \textbf{Correlazioni significative}:
+    \begin{itemize}
+        \item Matrice di correlazione per variabili numeriche
+        \item Identificazione di potenziali predittori
+    \end{itemize}
+    \item \textbf{Analisi delle variabili chiave}:
+    \begin{itemize}
+        \item età, pressione sanguigna, colesterolo, ecc.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\section{Conclusioni e Prospettive Future}
+
+\begin{frame}
+\frametitle{Conclusioni e Prospettive Future}
+\begin{itemize}
+    \item \textbf{Riepilogo delle principali scoperte}:
+    \begin{itemize}
+        \item Pattern identificati nei dati
+        \item Variabili più correlate con la presenza di malattia cardiaca
+    \end{itemize}
+    \item \textbf{Implicazioni cliniche}:
+    \begin{itemize}
+        \item Potenziali fattori di rischio emergenti
+        \item Suggerimenti per la pratica clinica
+    \end{itemize}
+    \item \textbf{Limitazioni dello studio}:
+    \begin{itemize}
+        \item Dimensione del campione
+        \item Possibili bias nei dati
+    \end{itemize}
+    \item \textbf{Direzioni future}:
+    \begin{itemize}
+        \item Analisi inferenziale approfondita
+        \item Modelli predittivi (es. regressione logistica, machine learning)
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Grazie per l'attenzione}
+\begin{center}
+    \large{Domande?}
+\end{center}
+\end{frame}
+
+\end{document}
