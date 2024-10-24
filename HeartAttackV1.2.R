@@ -3,14 +3,12 @@
 setwd("~/Code Nest/PWEDA-CodeNest")
 
 # Caricamento librerie necessarie
-# Nota: alcune librerie potrebbero essere ridondanti - valutare l'eliminazione di duplicati
 library(readr)      # Per lettura file CSV
 library(labstatR)   # Per funzioni statistiche base
 library(tseries)    # Per analisi serie temporali e test statistici (caricato due volte)
 library(moments)    # Per calcolo asimmetria e curtosi
 library(VIM)        # Per gestione dati mancanti (KNN imputation)
 library(gridExtra)  # Per layout grafici multipli
-library(tseries)    # Duplicato - rimuovere
 library(lmtest)     # Per test Jarque-Bera
 library(nortest)    # Per test di normalità aggiuntivi
 library(MASS)       # Per regressione logistica ordinale
