@@ -1,5 +1,3 @@
-setwd("~/Code Nest/PWEDA-CodeNest")
-
 # Caricamento librerie necessarie
 library(readr)      # Per lettura file CSV
 library(labstatR)   # Per funzioni statistiche base
