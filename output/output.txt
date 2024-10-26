@@ -1,0 +1,184 @@
+Rows: 920 Columns: 16                                                                                                                         
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: ","
+chr (6): sex, dataset, cp, restecg, slope, thal
+dbl (8): id, age, trestbps, chol, thalch, oldpeak, ca, num
+lgl (2): fbs, exang
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Initial data loaded. Starting analysis pipeline...
+
+=== Step 1: Data Preprocessing ===
+Valori mancanti per colonna:
+trestbps     chol      fbs  restecg   thalch    exang  oldpeak    slope     thal 
+      59       30       90      181       55       55       62      309      486 
+
+=== Step 2: Basic Statistical Analysis ===
+$`Statistiche Descrittive`
+         Variabile Minimo     Q1 Mediana       Media     Q3 Massimo     Varianza Deviazione_Standard   Skewness   Kurtosi
+id              id    1.0 230.75   460.5 460.5000000 690.25   920.0 7.061000e+04         265.7254222  0.0000000  1.799997
+age            age   28.0  47.00    54.0  53.5108696  60.00    77.0 8.882469e+01           9.4246852 -0.1956742  2.612633
+sex            sex    0.0   1.00     1.0   0.7891304   1.00     1.0 1.665847e-01           0.4081478 -1.4175633  3.009486
+cp              cp    0.0   2.00     3.0   2.2500000   3.00     3.0 8.667029e-01           0.9309688 -0.8875158  2.554414
+trestbps  trestbps    0.0 120.00   130.0 132.6260870 142.00   200.0 3.557490e+02          18.8613108  0.1577173  5.824522
+chol          chol    0.0 177.75   223.0 200.0869565 267.25   603.0 1.192206e+04         109.1881757 -0.6431348  3.155010
+fbs            fbs    0.0   0.00     0.0   0.1532609   0.00     1.0 1.299132e-01           0.3604347  1.9250517  4.705824
+restecg    restecg    0.0   0.00     0.0   0.4304348   0.00     2.0 6.763306e-01           0.8223932  1.3858943  2.920703
+thalch      thalch   60.0 120.00   138.0 136.8456522 156.00   202.0 6.457063e+02          25.4107515 -0.1470486  2.565228
+exang        exang    0.0   0.00     0.0   0.3978261   1.00     1.0 2.398212e-01           0.4897154  0.4175057  1.174311
+oldpeak    oldpeak   -2.6   0.00     0.2   0.8223913   1.50     6.2 1.161740e+00           1.0778403  1.1316384  4.286804
+slope        slope    0.0   0.00     1.0   0.7173913   1.00     2.0 3.640062e-01           0.6033293  0.2200203  2.400591
+ca              ca    0.0   0.00     0.0   0.2271739   0.00     3.0 3.955611e-01           0.6289365  2.9603748 11.231570
+thal          thal    0.0   0.00     1.0   1.1641304   2.00     2.0 7.379938e-01           0.8590657 -0.3211584  1.431051
+num            num    0.0   0.00     1.0   0.9956522   2.00     4.0 1.305748e+00           1.1426934  0.9672996  2.889726
+
+$`Intervalli di Confidenza e P-value`
+         Variable    Lower_Ci    Upper_Ci   P_value
+id             id 443.3066845 477.6933155 3.24e-279
+age           age  52.9010612  54.1206779  0.00e+00
+sex           sex   0.7627219   0.8155390 7.18e-313
+cp             cp   2.1897632   2.3102368  0.00e+00
+trestbps trestbps 131.4056976 133.8464763  0.00e+00
+chol         chol 193.0221197 207.1517934 3.59e-296
+fbs           fbs   0.1299395   0.1765822  4.23e-35
+restecg   restecg   0.3772232   0.4836463  2.45e-50
+thalch     thalch 135.2014923 138.4898120  0.00e+00
+exang       exang   0.3661399   0.4295123 2.52e-103
+oldpeak   oldpeak   0.7526515   0.8921311  1.00e-93
+slope       slope   0.6783539   0.7564287 3.58e-178
+ca             ca   0.1864796   0.2678682  2.44e-26
+thal         thal   1.1085460   1.2197148 2.15e-210
+num           num   0.9217161   1.0695882 6.11e-115
+
+$`Analisi degli Outlier`
+         Variabile Numero_Outlier
+id              id              0
+age            age              0
+sex            sex            194
+cp              cp             46
+trestbps  trestbps             25
+chol          chol            185
+fbs            fbs            141
+restecg    restecg            198
+thalch      thalch              2
+exang        exang              0
+oldpeak    oldpeak             16
+slope        slope              0
+ca              ca            128
+thal          thal              0
+num            num              0
+
+$`Matrice di Correlazione`
+            id   age   sex    cp trestbps  chol   fbs restecg thalch exang oldpeak slope    ca  thal   num
+id        1.00  0.24  0.28  0.22     0.09 -0.37  0.16   -0.33  -0.47  0.25   -0.03  0.31 -0.39  0.43  0.27
+age       0.24  1.00  0.06  0.17     0.24 -0.09  0.23    0.16  -0.36  0.19    0.21  0.26  0.22  0.28  0.34
+sex       0.28  0.06  1.00  0.17     0.02 -0.19  0.08   -0.03  -0.19  0.18    0.08  0.20 -0.04  0.36  0.26
+cp        0.22  0.17  0.17  1.00     0.02 -0.13  0.03    0.02  -0.35  0.40    0.23  0.32  0.08  0.37  0.40
+trestbps  0.09  0.24  0.02  0.02     1.00  0.08  0.19    0.04  -0.11  0.13    0.14  0.10  0.03  0.11  0.13
+chol     -0.37 -0.09 -0.19 -0.13     0.08  1.00  0.07    0.18   0.22 -0.04    0.05 -0.11  0.15 -0.19 -0.23
+fbs       0.16  0.23  0.08  0.03     0.19  0.07  1.00    0.10  -0.07 -0.03    0.02  0.16  0.06  0.09  0.14
+restecg  -0.33  0.16 -0.03  0.02     0.04  0.18  0.10    1.00   0.09  0.00    0.10  0.02  0.33 -0.07  0.10
+thalch   -0.47 -0.36 -0.19 -0.35    -0.11  0.22 -0.07    0.09   1.00 -0.35   -0.12 -0.34  0.05 -0.38 -0.36
+exang     0.25  0.19  0.18  0.40     0.13 -0.04 -0.03    0.00  -0.35  1.00    0.36  0.38  0.01  0.49  0.36
+oldpeak  -0.03  0.21  0.08  0.23     0.14  0.05  0.02    0.10  -0.12  0.36    1.00  0.38  0.22  0.29  0.40
+slope     0.31  0.26  0.20  0.32     0.10 -0.11  0.16    0.02  -0.34  0.38    0.38  1.00 -0.01  0.35  0.39
+ca       -0.39  0.22 -0.04  0.08     0.03  0.15  0.06    0.33   0.05  0.01    0.22 -0.01  1.00  0.01  0.26
+thal      0.43  0.28  0.36  0.37     0.11 -0.19  0.09   -0.07  -0.38  0.49    0.29  0.35  0.01  1.00  0.41
+num       0.27  0.34  0.26  0.40     0.13 -0.23  0.14    0.10  -0.36  0.36    0.40  0.39  0.26  0.41  1.00
+
+
+=== Step 3: Normality Tests ===
+$`Risultati Test di Normalità`
+  Variabile Shapiro_Wilk_pvalue KS_Test_pvalue Jarque_Bera_pvalue Anderson_Darling_pvalue
+1       age            2.27e-05       1.59e-03           2.99e-03                5.70e-07
+2  trestbps            5.34e-15       6.70e-09           0.00e+00                3.35e-18
+3      chol            1.50e-27       1.14e-27           1.07e-14                3.70e-24
+4    thalch            1.39e-04       2.85e-02           5.09e-03                2.22e-04
+
+$`Potenza dei Test`
+  Variabile SW_Power KS_Power JB_Power AD_Power
+1       age        1        1        1        1
+2  trestbps        1        1        1        1
+3      chol        1        1        1        1
+4    thalch        1        1        1        1
+
+$`Soglia di Significatività Corrette (Bonferroni)`
+[1] 0.003125
+
+
+=== Step 4: Generating Visualizations ===
+Distribution plots generated.
+Boxplots generated.
+Q-Q plots generated.
+
+=== Step 5: Ordinal Regression Analysis ===
+fitting null model for pseudo-r2
+
+Model Summary:
+Call:
+polr(formula = formula, data = df_prepared, Hess = TRUE)
+
+Coefficients:
+             Value Std. Error t value
+age       0.027379  0.0088690   3.087
+sex       0.910875  0.2134068   4.268
+cp        0.616879  0.0962121   6.412
+trestbps  0.005160  0.0039030   1.322
+chol     -0.004073  0.0006664  -6.112
+fbs       0.450284  0.1922835   2.342
+restecg   0.092656  0.0921642   1.005
+thalch   -0.011298  0.0033130  -3.410
+exang     0.304079  0.1695164   1.794
+oldpeak   0.362328  0.0713260   5.080
+slope     0.660161  0.1381270   4.779
+ca        0.862574  0.1192778   7.232
+thal      0.422472  0.1050524   4.022
+
+Intercepts:
+    Value   Std. Error t value
+0|1  3.2803  0.9544     3.4372
+1|2  5.3707  0.9658     5.5609
+2|3  6.4055  0.9717     6.5921
+3|4  8.4293  0.9916     8.5009
+
+Residual Deviance: 1837.83 
+AIC: 1871.83 
+
+VIF Values:
+     age      sex       cp trestbps     chol      fbs  restecg   thalch    exang  oldpeak    slope       ca     thal 
+1.199136 1.118244 1.144996 1.121208 1.209191 1.141052 1.189013 1.260939 1.425655 1.246600 1.192126 1.269472 1.326698 
+
+Model Information Criteria:
+AIC: 1871.83 
+BIC: 1953.844 
+McFadden R²: 0.2477174 
+
+Confusion Matrix:
+      Predicted
+Actual   0   1   2   3   4
+     0   0 338  66   0   7
+     1   0  69 172   0  24
+     2   0  10  72   0  27
+     3   0   5  64   0  36
+     4   0   1  12   0  14
+
+Model Accuracy: 0.1690294 
+
+Evaluation Metrics by Class:
+  Class Precision Recall F1_Score
+0     0    0.0000    NaN      NaN
+1     1    0.2604 0.1631   0.2006
+2     2    0.6606 0.1865   0.2909
+3     3    0.0000    NaN      NaN
+4     4    0.5185 0.1296   0.2074
+
+=== Step 6: ROC Analysis ===
+
+AUC Values for each class:
+  Class   AUC
+1     1 0.895
+2     2 0.714
+3     3 0.765
+4     4 0.808
+5     5 0.856
