@@ -1,0 +1,52 @@
+# MIT License with Medical Disclaimer
+
+Copyright (c) 2024 Aldo Jacopo Virno
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+## Medical Disclaimer
+
+THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL AND RESEARCH PURPOSES ONLY AND IS NOT INTENDED TO BE USED AS A MEDICAL DEVICE OR AS A SUBSTITUTE FOR PROFESSIONAL MEDICAL ADVICE, DIAGNOSIS, OR TREATMENT. 
+
+THE SOFTWARE PROCESSES AND ANALYZES MEDICAL DATA BUT:
+1. Should not be used for making clinical decisions
+2. Is not validated for clinical use
+3. May contain errors or inaccuracies
+4. Should be used only by qualified researchers familiar with statistical analysis methods
+
+ANY RELIANCE YOU PLACE ON THIS SOFTWARE FOR MEDICAL PURPOSES IS STRICTLY AT YOUR OWN RISK.
+
+## General Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Citation and Attribution
+
+If you use this software in your research, please cite it as:
+
+```
+Aldo Jacopo Virno. (2024). Statistical Analysis Model for Heart Disease Data. 
+GitHub repository: https://github.com/[your-username]/[repository-name]
+```
+
+## Dependencies
+
+This software uses several R packages, each with their own licenses. Users should comply with the licensing terms of all dependencies listed in the requirements file.
+
+## Data Usage
+
+The example dataset used in this software (heart_disease_uci.csv) is from the UCI Machine Learning Repository. Any use of this dataset should comply with UCI's terms of use and provide appropriate attribution.
