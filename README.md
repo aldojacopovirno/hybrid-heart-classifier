@@ -1,147 +1,163 @@
-# Analisi Statistica delle Malattie Cardiache
+## Multi-Dimensional Statistical Modeling of Heart Disease Predictors: An Integrated Framework for Ordinal Regression and ROC Analysis
 
-Questo progetto implementa un'analisi statistica completa di dati sulle malattie cardiache utilizzando R. Il codice fornisce un framework completo per l'analisi esplorativa dei dati (EDA), test di normalità, visualizzazione delle distribuzioni e modellazione predittiva attraverso regressione ordinale.
+An integrated framework for statistical analysis and prediction of heart diseases using R, with a focus on ordinal regression and ROC analysis.
 
-## Caratteristiche Principali
-
-- Preprocessing completo dei dati
-- Analisi statistica descrittiva
-- Test di normalità multipli con correzione di Bonferroni
-- Visualizzazioni statistiche (istogrammi, boxplot, Q-Q plot)
-- Regressione ordinale per la predizione della severità della malattia
-- Analisi ROC con curve per ogni classe
-- Gestione automatica dei valori mancanti tramite KNN imputation
-
-## Prerequisiti
-
-Le seguenti librerie R sono necessarie:
+## Repository Structure
 
 ```R
-- readr      # Lettura file CSV
-- labstatR   # Funzioni statistiche base
-- tseries    # Analisi serie temporali
-- moments    # Calcolo asimmetria e curtosi
-- VIM        # Gestione dati mancanti
-- gridExtra  # Layout grafici
-- lmtest     # Test Jarque-Bera
-- nortest    # Test di normalità
-- MASS       # Regressione logistica ordinale
-- car        # Diagnostica modelli
-- olsrr      # Diagnostica modelli
+CardioSTAT/
+├── R/
+│   ├── preprocessing.R        # Data preprocessing functions
+│   ├── statistical_tests.R    # Implementation of statistical tests
+│   ├── visualization.R        # Visualization functions
+│   ├── modeling.R             # Predictive models and regression
+│   └── utils.R                # General utility functions
+├── data/
+│   ├── raw/                   # Raw data
+│   └── processed/             # Preprocessed data
+├── scripts/
+│   ├── setup.R                # Environment setup script
+│   └── main_analysis.R        # Main analysis script
+├── tests/
+│   └── unit_tests.R           # Unit tests
+├── output/
+│   ├── figures/               # Graphical outputs
+│   └── results/               # Analysis results
+├── docs/
+│   ├── methodology.md         # Methodology documentation
+│   └── api.md                 # API documentation
+├── LICENSE
+└── README.md
+```
+
+## Key Features
+
+- **Comprehensive Data Preprocessing**
+- **Descriptive Statistical Analysis**
+- **Multiple Normality Tests with Bonferroni Correction**
+- **Statistical Visualizations** (histograms, boxplots, Q-Q plots)
+- **Ordinal Regression** for disease severity prediction
+- **ROC Analysis** with curves for each class
+- **Automated Handling of Missing Values** using KNN imputation
+
+## Prerequisites
+
+The following R libraries are required:
+
+```R
+- readr      # CSV file reading
+- labstatR   # Basic statistical functions
+- tseries    # Time series analysis
+- moments    # Skewness and kurtosis calculation
+- VIM        # Missing data handling
+- gridExtra  # Layout for graphical outputs
+- lmtest     # Jarque-Bera test
+- nortest    # Normality tests
+- MASS       # Ordinal logistic regression
+- car        # Model diagnostics
+- olsrr      # Model diagnostics
 - pscl       # Pseudo R-squared
-- pwr        # Analisi potenza statistica
-- dplyr      # Manipolazione dati
+- pwr        # Statistical power analysis
+- dplyr      # Data manipulation
 - caret      # Machine Learning
-- pROC       # Curve ROC
+- pROC       # ROC curves
 ```
 
-## Come Iniziare
+## Getting Started
 
-1. Clone del repository:
-```bash
-git clone [URL_DEL_TUO_REPOSITORY]
-```
+1. Clone the repository:
 
-2. Assicurarsi che tutte le dipendenze siano installate:
 ```R
-required_packages <- c("readr", "labstatR", "tseries", "moments", "VIM", 
-                      "gridExtra", "lmtest", "nortest", "MASS", "car", 
-                      "olsrr", "pscl", "pwr", "dplyr", "caret", "pROC")
+git clone https://github.com/cardio-stats/CardioSTAT.git
+```
 
-for(pkg in required_packages) {
-  if(!require(pkg, character.only = TRUE)) {
-    install.packages(pkg)
-    library(pkg, character.only = TRUE)
-  }
+2.	Run the setup script:
+
+```R
+source("scripts/setup.R")
+```
+
+3.	Run the complete analysis:
+
+```R
+source("scripts/main_analysis.R")
+results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
+```
+
+## Analysis Pipeline
+
+1. Data Preprocessing (R/preprocessing.R)
+  - Encoding categorical variables
+  - Handling missing values with KNN imputation
+  - Preparing data for ordinal regression
+
+2. Basic Statistical Analysis (R/statistical_tests.R)
+  - Comprehensive descriptive statistics
+  - Confidence intervals
+  - Hypothesis testing
+  - Outlier analysis
+  - Correlation matrices
+
+3. Normality Tests (R/statistical_tests.R)
+  - Shapiro-Wilk test
+  - Kolmogorov-Smirnov test
+  - Jarque-Bera test
+  - Anderson-Darling test
+  - Bonferroni correction for multiple tests
+  - Statistical power analysis
+
+4. Visualizations (R/visualization.R)
+  - Histograms with normal density curves
+  - Boxplots for outlier identification
+  - Q-Q plots for normality assessment
+
+5. Predictive Modeling (R/modeling.R)
+  - Ordinal logistic regression
+  - VIF analysis for multicollinearity
+  - Model evaluation metrics
+
+8. ROC Analysis (R/modeling.R)
+  - ROC curves for each class
+  - AUC calculation per class
+  - Comparative performance visualization
+
+Dataset Structure
+
+The dataset should be saved in data/raw/ and include the following variables:
+
+	•	age: Age of the patient
+	•	sex: Gender of the patient
+	•	cp: Type of chest pain
+	•	trestbps: Resting blood pressure
+	•	chol: Cholesterol
+	•	fbs: Fasting blood sugar
+	•	restecg: Resting electrocardiographic results
+	•	thalch: Maximum heart rate
+	•	exang: Exercise-induced angina
+	•	oldpeak: ST depression
+	•	slope: Slope of the ST segment
+	•	ca: Number of major vessels
+	•	thal: Thalassemia
+	•	num: Heart disease diagnosis (target variable)
+
+## Citation
+
+If you use this software in your research, please cite:
+```R
+@software{CardioSTAT2024,
+  author = {Virno, Aldo Jacopo and Bucchignani, Andrea},
+  title = {CardioSTAT: A Comprehensive Statistical Framework for Heart Disease Analysis},
+  year = {2024},
+  url = {https://github.com/cardio-stats/CardioSTAT}
 }
 ```
 
-3. Eseguire l'analisi completa:
-```R
-source("your_script.R")
-results <- run_complete_analysis("heart_disease_uci.csv")
-```
+## License
 
-## Pipeline di Analisi
+Distributed under the MIT License. See LICENSE for more information.
 
-### 1. Preprocessing dei Dati
-- Codifica delle variabili categoriche
-- Gestione dei valori mancanti tramite KNN imputation
-- Preparazione dei dati per la regressione ordinale
+## Contact
 
-### 2. Analisi Statistica Base
-- Statistiche descrittive complete
-- Intervalli di confidenza
-- Test di ipotesi
-- Analisi degli outlier
-- Matrici di correlazione
-
-### 3. Test di Normalità
-- Test di Shapiro-Wilk
-- Test di Kolmogorov-Smirnov
-- Test di Jarque-Bera
-- Test di Anderson-Darling
-- Correzione di Bonferroni per test multipli
-- Analisi della potenza statistica
-
-### 4. Visualizzazioni
-- Istogrammi con curve di densità normale
-- Boxplot per identificazione outlier
-- Q-Q plot per valutazione normalità
-
-### 5. Modellazione Predittiva
-- Regressione logistica ordinale
-- Analisi VIF per multicollinearità
-- Metriche di valutazione del modello:
-  - AIC/BIC
-  - R² di McFadden
-  - Matrice di confusione
-  - Accuratezza, Precisione, Recall, F1-Score
-
-### 6. Analisi ROC
-- Curve ROC per ogni classe
-- Calcolo AUC per ogni classe
-- Visualizzazione comparativa delle performance
-
-## Output dell'Analisi
-
-Il codice produce una serie di output strutturati:
-
-```R
-results <- list(
-    Preprocessed_Data = df_prepared,          # Dataset preprocessato
-    Statistical_Analysis = stats_results,      # Risultati analisi statistica
-    Normality_Tests = normality_results,       # Risultati test normalità
-    Model_Results = model_results,             # Risultati modello predittivo
-    ROC_Results = roc_results                  # Risultati analisi ROC
-)
-```
-
-## Struttura del Dataset
-
-Il dataset deve contenere le seguenti variabili:
-- age: età del paziente
-- sex: sesso del paziente
-- cp: tipo di dolore toracico
-- trestbps: pressione sanguigna a riposo
-- chol: colesterolo
-- fbs: glicemia a digiuno
-- restecg: risultati elettrocardiogramma
-- thalch: frequenza cardiaca massima
-- exang: angina indotta da esercizio
-- oldpeak: depressione ST
-- slope: pendenza del segmento ST
-- ca: numero di vasi principali
-- thal: talassemia
-- num: diagnosi di malattia cardiaca (variabile target)
-
-## Licenza
-
-Distribuito sotto licenza MIT. Vedere `LICENSE` per maggiori informazioni.
-
-## Contatti
-
-Aldo Jacopo Virno - aldojacopo@gmail.com
-Andrea Bucchignani - andreabucchignani@gmail.com
-
-Project Link: [https://github.com/username/repository-name]
+- Aldo Jacopo Virno - aldojacopo@gmail.com
+- Andrea Bucchignani - andreabucchignani@gmail.com
+- Project Link: https://github.com/cardio-stats/CardioSTAT
