@@ -10,8 +10,7 @@ CardioSTAT/
 │   ├── preprocessing.R        # Data preprocessing functions
 │   ├── statistical_tests.R    # Implementation of statistical tests
 │   ├── visualization.R        # Visualization functions
-│   ├── modeling.R             # Predictive models and regression
-│   └── utils.R                # General utility functions
+│   └── modeling.R             # Predictive models and regression
 ├── data/
 │   ├── raw/                   # Raw data
 │   └── processed/             # Preprocessed data
