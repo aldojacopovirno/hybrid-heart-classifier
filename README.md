@@ -1,89 +1,147 @@
-### Roadmap EDA per Dataset sulle Malattie Cardiache (Sviluppo in R)
+# Analisi Statistica delle Malattie Cardiache
 
-L’obiettivo principale di questo progetto è condurre un’analisi esplorativa dei dati (EDA) su un dataset relativo a malattie cardiache, al fine di stimare la probabilità di sviluppare una malattia cardiaca in base a variabili cliniche e demografiche. Attraverso l’analisi delle relazioni tra le variabili, l’identificazione di schemi significativi e la valutazione delle correlazioni, il progetto mira a fornire una comprensione approfondita dei fattori che contribuiscono al rischio di malattia cardiaca. In seguito all’EDA, verrà effettuata un’analisi bivariata per esaminare le interazioni tra variabili numeriche e categoriali e il target, culminando nella presentazione dei risultati in modo chiaro e utile per future decisioni cliniche e di ricerca.
+Questo progetto implementa un'analisi statistica completa di dati sulle malattie cardiache utilizzando R. Il codice fornisce un framework completo per l'analisi esplorativa dei dati (EDA), test di normalità, visualizzazione delle distribuzioni e modellazione predittiva attraverso regressione ordinale.
 
-#### 1. **Setup Iniziale del Progetto**
-- **Caricamento delle Librerie**: Installare e caricare le librerie principali come `tidyverse`, `ggplot2`, `dplyr`, `readr`, e `summarytools` per la manipolazione dei dati e la visualizzazione.
-- **Caricamento del Dataset**: Importare il dataset in R utilizzando funzioni come `read.csv()` o `read.table()` e visualizzare le prime righe con `head()` per una panoramica iniziale.
+## Caratteristiche Principali
 
-#### 2. **Esplorazione Iniziale dei Dati**
-- **Ispezionare la Struttura del Dataset**: Utilizzare `str()` per analizzare la struttura dei dati, controllando i tipi di variabili e l'eventuale presenza di NA.
-- **Statistica Descrittiva**: Ottenere statistiche descrittive di base con funzioni come `summary()` e `describe()` per capire la distribuzione delle variabili numeriche.
-- **Esplorazione delle Variabili Categoriali**: Verificare i livelli delle variabili categoriali con `table()` per controllare la loro frequenza e la distribuzione.
+- Preprocessing completo dei dati
+- Analisi statistica descrittiva
+- Test di normalità multipli con correzione di Bonferroni
+- Visualizzazioni statistiche (istogrammi, boxplot, Q-Q plot)
+- Regressione ordinale per la predizione della severità della malattia
+- Analisi ROC con curve per ogni classe
+- Gestione automatica dei valori mancanti tramite KNN imputation
 
-#### 3. **Pulizia dei Dati**
-- **Trattamento dei Valori Mancanti**: Identificare i valori mancanti usando `is.na()` e decidere una strategia, come l’imputazione (media/mediana per variabili numeriche o moda per categoriali) o l’eliminazione dei campioni/variabili con troppi valori mancanti.
-- **Gestione degli Outlier**: Identificare outlier tramite box plot o funzioni come `boxplot()` e valutare se rimuoverli o trasformarli.
-- **Verifica delle Variabili Categoriali**: Assicurarsi che tutte le variabili categoriali siano nel formato corretto, convertendo variabili numeriche categoriali in `factor()` dove necessario.
+## Prerequisiti
 
-#### 4. **Analisi Univariata**
-- **Distribuzione delle Variabili Numeriche**: Utilizzare istogrammi e densità per visualizzare le distribuzioni delle variabili numeriche, tramite `ggplot2` o `hist()`.
-- **Analisi delle Variabili Categoriali**: Creare grafici a barre per le variabili categoriali per capire la distribuzione dei dati con `ggplot2` o `barplot()`.
+Le seguenti librerie R sono necessarie:
 
-#### 5. **Analisi Bivariata**
-- **Relazione tra Variabili Numeriche e Target**: Utilizzare scatter plot per esaminare la relazione tra variabili numeriche e la variabile target (ad es. `num`), accompagnati dal calcolo della correlazione (coefficiente di Pearson).
-- **Relazione tra Variabili Categoriali e Target**: Creare grafici a barre o tabelle di contingenza per esaminare la relazione tra le variabili categoriali e la variabile target.
-- **Heatmap di Correlazione**: Creare una matrice di correlazione per variabili numeriche e visualizzarla come heatmap per esplorare le correlazioni tra variabili e identificare multicollinearità.
+```R
+- readr      # Lettura file CSV
+- labstatR   # Funzioni statistiche base
+- tseries    # Analisi serie temporali
+- moments    # Calcolo asimmetria e curtosi
+- VIM        # Gestione dati mancanti
+- gridExtra  # Layout grafici
+- lmtest     # Test Jarque-Bera
+- nortest    # Test di normalità
+- MASS       # Regressione logistica ordinale
+- car        # Diagnostica modelli
+- olsrr      # Diagnostica modelli
+- pscl       # Pseudo R-squared
+- pwr        # Analisi potenza statistica
+- dplyr      # Manipolazione dati
+- caret      # Machine Learning
+- pROC       # Curve ROC
+```
 
-#### 6. **Visualizzazione dei Dati**
-- **Grafici a Dispersione**: Usare scatter plot per visualizzare relazioni tra coppie di variabili numeriche.
-- **Box Plot**: Utilizzare box plot per comparare la distribuzione delle variabili numeriche in relazione alla variabile target.
-- **Heatmap**: Visualizzare la matrice di correlazione con una heatmap per evidenziare relazioni significative tra le variabili.
+## Come Iniziare
 
-#### 7. **Feature Engineering**
-- **Codifica delle Variabili Categoriali**: Se necessario, convertire le variabili categoriali in numeriche utilizzando dummy variables con `model.matrix()` o `mutate()` di `dplyr`.
-- **Creazione di Nuove Variabili**: Valutare la possibilità di creare nuove variabili o feature derivate dalle variabili esistenti, come rapporti tra variabili o trasformazioni logaritmiche, se opportuno.
+1. Clone del repository:
+```bash
+git clone [URL_DEL_TUO_REPOSITORY]
+```
 
-#### 8. **Analisi Multivariata**
-- **Relazione tra Più Variabili e il Target**: Esplorare come variabili multiple interagiscono tra loro e con il target attraverso l’uso di tecniche di regressione o analisi delle componenti principali (PCA), solo come strumento esplorativo.
+2. Assicurarsi che tutte le dipendenze siano installate:
+```R
+required_packages <- c("readr", "labstatR", "tseries", "moments", "VIM", 
+                      "gridExtra", "lmtest", "nortest", "MASS", "car", 
+                      "olsrr", "pscl", "pwr", "dplyr", "caret", "pROC")
 
----
+for(pkg in required_packages) {
+  if(!require(pkg, character.only = TRUE)) {
+    install.packages(pkg)
+    library(pkg, character.only = TRUE)
+  }
+}
+```
 
-### Stima della Probabilità di Sviluppare una Malattia Cardiaca
+3. Eseguire l'analisi completa:
+```R
+source("your_script.R")
+results <- run_complete_analysis("heart_disease_uci.csv")
+```
 
-#### 9. **Modello di Regressione Logistica**
-Poiché il target (`num`) sembra indicare un esito binario o categoriale (presenza o assenza di malattia cardiaca), una **regressione logistica** può essere utilizzata per stimare la probabilità di sviluppare la malattia.
+## Pipeline di Analisi
 
-1. **Trasformazione della Variabile Target**: Se `num` è un valore continuo o ha più categorie, ridurre le categorie a una forma binaria per la stima di probabilità.
-   
-2. **Creazione del Modello di Regressione Logistica**:
-   - Usare `glm()` per eseguire una regressione logistica, specificando il target come variabile dipendente e le altre variabili del dataset come predittori.
-   
-3. **Valutazione del Modello**:
-   - **Coefficiente di Regressione**: Esaminare i coefficienti del modello per interpretare l’impatto di ogni variabile predittiva sulla probabilità di sviluppare la malattia.
-   - **Statistica Pseudo-R²**: Valutare la bontà del modello con misure come AIC o pseudo-R².
-   - **Curva ROC**: Tracciare la curva ROC per valutare la capacità predittiva del modello, calcolando l’AUC (Area Under Curve) per misurare la performance.
+### 1. Preprocessing dei Dati
+- Codifica delle variabili categoriche
+- Gestione dei valori mancanti tramite KNN imputation
+- Preparazione dei dati per la regressione ordinale
 
-4. **Previsione delle Probabilità**:
-   - Usare il modello per stimare la probabilità di malattia per ciascun paziente e interpretare i risultati.
-   
-5. **Validazione del Modello**:
-   - Dividere il dataset in training e test set per validare le performance del modello e prevenire overfitting.
-   - Utilizzare la metrica **accuratezza** e l’analisi della matrice di confusione per valutare le previsioni.
+### 2. Analisi Statistica Base
+- Statistiche descrittive complete
+- Intervalli di confidenza
+- Test di ipotesi
+- Analisi degli outlier
+- Matrici di correlazione
 
-#### 10. **Conclusioni Finali**
-- **Sintesi dei Risultati**: Riassumere le intuizioni principali emerse dall'EDA e dall’analisi delle variabili più significative.
-- **Implicazioni per la Stima del Rischio**: Presentare i risultati della stima di probabilità, sottolineando quali fattori aumentano maggiormente il rischio di malattia cardiaca.
+### 3. Test di Normalità
+- Test di Shapiro-Wilk
+- Test di Kolmogorov-Smirnov
+- Test di Jarque-Bera
+- Test di Anderson-Darling
+- Correzione di Bonferroni per test multipli
+- Analisi della potenza statistica
 
----
+### 4. Visualizzazioni
+- Istogrammi con curve di densità normale
+- Boxplot per identificazione outlier
+- Q-Q plot per valutazione normalità
 
-### Tabella delle Variabili
+### 5. Modellazione Predittiva
+- Regressione logistica ordinale
+- Analisi VIF per multicollinearità
+- Metriche di valutazione del modello:
+  - AIC/BIC
+  - R² di McFadden
+  - Matrice di confusione
+  - Accuratezza, Precisione, Recall, F1-Score
 
-| Variabile  | Descrizione                                                                                  |
-|------------|----------------------------------------------------------------------------------------------|
-| `id`       | ID univoco del paziente                                                                      |
-| `age`      | Età del paziente in anni                                                                     |
-| `origin`   | Provenienza del campione di studio                                                           |
-| `sex`      | Sesso del paziente (Maschio/Femmina)                                                         |
-| `cp`       | Tipo di dolore toracico (angina tipica, angina atipica, non anginale, asintomatico)           |
-| `trestbps` | Pressione sanguigna a riposo (mm Hg all’ammissione in ospedale)                              |
-| `chol`     | Colesterolo nel siero (mg/dl)                                                                |
-| `fbs`      | Glicemia a digiuno (se > 120 mg/dl)                                                          |
-| `restecg`  | Risultati dell’elettrocardiogramma a riposo (normale, anomalia ST-T, ipertrofia ventricolare) |
-| `thalach`  | Frequenza cardiaca massima raggiunta                                                         |
-| `exang`    | Angina indotta da esercizio (True/False)                                                     |
-| `oldpeak`  | Depressione ST indotta dall’esercizio rispetto al riposo                                      |
-| `slope`    | Pendenza del segmento ST durante esercizio                                                   |
-| `ca`       | Numero di vasi principali (0-3) colorati con fluoroscopia                                    |
-| `thal`     | Esito del test del talio (normale, difetto fisso, difetto reversibile)                       |
-| `num`      | Variabile target che predice la malattia cardiaca                                             |
+### 6. Analisi ROC
+- Curve ROC per ogni classe
+- Calcolo AUC per ogni classe
+- Visualizzazione comparativa delle performance
+
+## Output dell'Analisi
+
+Il codice produce una serie di output strutturati:
+
+```R
+results <- list(
+    Preprocessed_Data = df_prepared,          # Dataset preprocessato
+    Statistical_Analysis = stats_results,      # Risultati analisi statistica
+    Normality_Tests = normality_results,       # Risultati test normalità
+    Model_Results = model_results,             # Risultati modello predittivo
+    ROC_Results = roc_results                  # Risultati analisi ROC
+)
+```
+
+## Struttura del Dataset
+
+Il dataset deve contenere le seguenti variabili:
+- age: età del paziente
+- sex: sesso del paziente
+- cp: tipo di dolore toracico
+- trestbps: pressione sanguigna a riposo
+- chol: colesterolo
+- fbs: glicemia a digiuno
+- restecg: risultati elettrocardiogramma
+- thalch: frequenza cardiaca massima
+- exang: angina indotta da esercizio
+- oldpeak: depressione ST
+- slope: pendenza del segmento ST
+- ca: numero di vasi principali
+- thal: talassemia
+- num: diagnosi di malattia cardiaca (variabile target)
+
+## Licenza
+
+Distribuito sotto licenza MIT. Vedere `LICENSE` per maggiori informazioni.
+
+## Contatti
+
+Aldo Jacopo Virno - aldojacopo@gmail.com
+Andrea Bucchignani - andreabucchignani@gmail.com
+
+Project Link: [https://github.com/username/repository-name]
