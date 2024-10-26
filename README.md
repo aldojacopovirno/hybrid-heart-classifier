@@ -12,13 +12,9 @@ CardioSTAT/
 │   ├── visualization.R        # Visualization functions
 │   └── modeling.R             # Predictive models and regression
 ├── data/
-│   ├── raw/                   # Raw data
-│   └── processed/             # Preprocessed data
+│   └── heart_disease_uci.csv  # Raw data
 ├── scripts/
-│   ├── setup.R                # Environment setup script
 │   └── main_analysis.R        # Main analysis script
-├── tests/
-│   └── unit_tests.R           # Unit tests
 ├── output/
 │   ├── figures/               # Graphical outputs
 │   └── results/               # Analysis results
