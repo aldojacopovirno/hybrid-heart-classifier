@@ -121,7 +121,7 @@ results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
   - AUC calculation per class
   - Comparative performance visualization
 
-Dataset Structure
+## Dataset Structure
 
 The dataset should be saved in data/raw/ and include the following variables:
 
