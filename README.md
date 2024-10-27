@@ -19,8 +19,7 @@ CardioSTAT/
 │   ├── figures/               # Graphical outputs
 │   └── results/               # Analysis results
 ├── docs/
-│   ├── methodology.md         # Methodology documentation
-│   └── api.md                 # API documentation
+│   └── methodology.md         # Methodology documentation
 ├── LICENSE
 └── README.md
 ```
