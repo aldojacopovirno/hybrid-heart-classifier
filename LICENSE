@@ -39,8 +39,10 @@ Citation and Attribution
 
 If you use this software in your research, please cite it as:
 
+'''
 Aldo Jacopo Virno and Andrea Bucchignani. (2024). Multi-Dimensional Statistical Modeling of Heart Disease Predictors: An Integrated Framework for Ordinal Regression and ROC Analysis. 
 GitHub repository: https://github.com/[your-username]/CardioSTAT
+'''
 
 Dependencies
 
@@ -49,5 +51,3 @@ This software uses several R packages, each with their own licenses. Users shoul
 Data Usage
 
 The example dataset used in this software (heart_disease_uci.csv) is from the UCI Machine Learning Repository. Any use of this dataset should comply with UCI’s terms of use and provide appropriate attribution.
-
-This version includes your study title and the repository name, CardioSTAT, for accurate attribution.
