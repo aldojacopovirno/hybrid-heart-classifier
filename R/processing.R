@@ -61,6 +61,30 @@ handle_missing_values <- function(df) {
   }
 }
 
+#' Apply Robust Scaler
+#' 
+#' @description
+#' Scales specified numeric variables using robust scaling (subtract median, divide by IQR).
+#' 
+#' @param df A data frame containing numeric variables
+#' @param columns A character vector of column names to scale
+#' @return A data frame with specified numeric variables scaled
+apply_robust_scaler <- function(df, columns) {
+  df_scaled <- df  # Copy original data
+  
+  for (col in columns) {
+    if (col %in% names(df_scaled)) {
+      median_col <- median(df_scaled[[col]], na.rm = TRUE)
+      iqr_col <- IQR(df_scaled[[col]], na.rm = TRUE)
+      df_scaled[[col]] <- (df_scaled[[col]] - median_col) / iqr_col
+    } else {
+      warning(paste("Column", col, "not found in dataframe. Skipping."))
+    }
+  }
+  
+  return(df_scaled)
+}
+
 #' Prepare Data for Ordinal Regression
 #' 
 #' @description
