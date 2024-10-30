@@ -32,6 +32,17 @@ library(VIM)
 imputed_data <- kNN(datamatrix, k = 5)
 ```
 
+- **Feature Scaling with Robust Scaler**  
+To handle the impact of outliers on feature scaling, the Robust Scaler was applied. This scaling method transforms the data based on the median and the interquartile range (IQR), making it less sensitive to outliers.
+
+    ```r
+    library(caret)
+    
+    # Apply Robust Scaler
+    preProc <- preProcess(imputed_data, method = "YeoJohnson")  # For handling normality if needed
+    scaled_data <- predict(preProc, imputed_data)
+    ```
+
 ## 3. Statistical Analysis
 
 - Descriptive Statistics
