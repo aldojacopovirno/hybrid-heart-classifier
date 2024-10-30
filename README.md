@@ -33,6 +33,7 @@ CardioSTAT/
 - **Ordinal Regression** for disease severity prediction
 - **ROC Analysis** with curves for each class
 - **Automated Handling of Missing Values** using KNN imputation
+- **Feature Scaling with Robust Scaler** to mitigate the impact of outliers
 
 ## Prerequisites
 
@@ -55,6 +56,7 @@ The following R libraries are required:
 - dplyr      # Data manipulation
 - caret      # Machine Learning
 - pROC       # ROC curves
+- caret      # For data preprocessing
 ```
 
 ## Getting Started
@@ -83,6 +85,7 @@ results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
 1. Data Preprocessing (R/preprocessing.R)
   - Encoding categorical variables
   - Handling missing values with KNN imputation
+  - Applying Robust Scaler for feature scaling
   - Preparing data for ordinal regression
 
 2. Basic Statistical Analysis (R/statistical_tests.R)
