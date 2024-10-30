@@ -37,9 +37,18 @@ run_complete_analysis <- function(data_path) {
   
   # Step 1: Data Preprocessing
   cat("\n=== Step 1: Data Preprocessing ===\n")
+  #Encode categorical variables
   df_encoded <- encoder(datamatrix)
+  
+  # Handle missing values with KNN imputation
   df_imputed <- handle_missing_values(df_encoded)
-  df_prepared <- prepare_data(df_imputed)
+  
+  # Apply robust scaler to selected numeric columns
+  columns_to_scale <- c("age", "trestbps", "chol", "thalch")
+  df_scaled <- apply_robust_scaler(df_imputed, columns_to_scale)
+  
+  # Prepare data for ordinal regression
+  df_prepared <- prepare_data(df_scaled)
   
   # Step 2: Statistical Analysis
   cat("\n=== Step 2: Basic Statistical Analysis ===\n")
