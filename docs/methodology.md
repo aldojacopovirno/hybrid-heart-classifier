@@ -1,7 +1,7 @@
-# Multi-Dimensional Statistical Modeling of Heart Disease Predictors: An Integrated Framework for Ordinal Regression and ROC Analysis
+# Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization: An Integrated Ordinal-XGBoost Framework Analysis
 
 ## 1. Introduction
-This document outlines the methodologies and statistical analyses applied to the *Multi-Dimensional Statistical Modeling of Heart Disease Predictors* project. The dataset from the University of California, Irvine (UCI) on heart disease was utilized to predict the probability of heart disease based on a variety of clinical indicators. The following sections describe data preprocessing, feature encoding, statistical analysis, model construction, and validation methodologies.
+This document details the methodologies and statistical analyses applied to the Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization project. Utilizing the UCI Heart Disease dataset, the goal is to classify and predict the probability and severity of heart disease using a hybrid framework that integrates **Ordinal Logistic Regression with XGBoost**. This dual approach leverages both statistical rigor and machine learning to enhance predictive performance and interpretability.
 
 ## 2. Data Preparation
 
@@ -68,9 +68,19 @@ library(MASS)
 model <- polr(num ~ ., data = datamatrix, Hess = TRUE)
 ```
 
+- XGBoost
+
+Complementing ordinal regression, XGBoost is applied for its superior handling of complex interactions and non-linearity. This hybrid approach enhances predictive accuracy while maintaining interpretability.
+
+```r
+library(xgboost)
+xgb_data <- xgb.DMatrix(data = as.matrix(scaled_data[-target_column]), label = scaled_data$target)
+xgb_model <- xgboost(data = xgb_data, max.depth = 6, eta = 0.1, nrounds = 100, objective = "multi:softmax")
+```
+
 - Model Diagnostics
 
-To evaluate model performance, pseudo R-squared values and likelihood ratio tests were computed, providing an understanding of the model’s explanatory power.
+Model diagnostics for the ordinal model include pseudo R-squared values and likelihood ratio tests, while XGBoost is evaluated with classification accuracy, AUC scores, and F1 metrics.
 
 - ROC Analysis
 
@@ -107,7 +117,7 @@ Quantile-Quantile (Q-Q) plots were created for normality assessment, comparing v
 
 ## 7. Conclusion
 
-This analysis integrates statistical modeling, data preprocessing, exploratory analysis, and visualization to construct a robust framework for predicting heart disease risk based on clinical data. The results offer a statistically validated, reproducible method for ordinal outcome prediction with extensive diagnostic checks.
+The hybrid Ordinal-XGBoost framework developed here provides a comprehensive and rigorous approach to heart disease classification, blending statistical and machine learning methods. By integrating model diagnostics, ROC analysis, and power analysis, the framework offers a validated, reproducible solution with both accuracy and interpretability for clinical applications.
 
 References
 - Ripley, B. D. (2002). Modern Applied Statistics with S. Springer.
