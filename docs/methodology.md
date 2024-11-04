@@ -120,7 +120,8 @@ Quantile-Quantile (Q-Q) plots were created for normality assessment, comparing v
 
 The hybrid Ordinal-XGBoost framework developed here provides a comprehensive and rigorous approach to heart disease classification, blending statistical and machine learning methods. By integrating model diagnostics, ROC analysis, and power analysis, the framework offers a validated, reproducible solution with both accuracy and interpretability for clinical applications.
 
-References
+## References
+
 - Ripley, B. D. (2002). Modern Applied Statistics with S. Springer.
 - UC Irvine Machine Learning Repository: Heart Disease Data Set.
 - Harrell, F. E. (2015). Regression Modeling Strategies: With Applications to Linear Models, Logistic and Ordinal Regression, and Survival Analysis.
