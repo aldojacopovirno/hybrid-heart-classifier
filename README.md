@@ -1,6 +1,7 @@
-## Multi-Dimensional Statistical Modeling of Heart Disease Predictors: An Integrated Framework for Ordinal Regression and ROC Analysis
+## Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization: An Integrated Ordinal-XGBoost Framework Analysis
 
-An integrated framework for statistical analysis and prediction of heart diseases using R, with a focus on ordinal regression and ROC analysis.
+This repository provides a comprehensive framework for heart disease classification and severity prediction using an hybrid model integrating ordinal logistic regression with XGBoost, alongside robust statistical analysis and ROC evaluations. This hybrid approach is designed to leverage both statistical rigor and machine learning capabilities, aiming for precise prediction and interpretability.
+
 
 ## Repository Structure
 
@@ -26,37 +27,38 @@ CardioSTAT/
 
 ## Key Features
 
-- **Comprehensive Data Preprocessing**
-- **Descriptive Statistical Analysis**
-- **Multiple Normality Tests with Bonferroni Correction**
-- **Statistical Visualizations** (histograms, boxplots, Q-Q plots)
-- **Ordinal Regression** for disease severity prediction
-- **ROC Analysis** with curves for each class
-- **Automated Handling of Missing Values** using KNN imputation
-- **Feature Scaling with Robust Scaler** to mitigate the impact of outliers
+- **Robust Data Preprocessing** with KNN imputation and robust scaling
+- **Hybrid Modeling Framework** combining Ordinal Logistic Regression and XGBoost
+- **Advanced Descriptive Statistics**
+- **Normality and Multicollinearity Testing** with Bonferroni Correction
+- **Comprehensive Visualizations** (e.g., histograms, boxplots, Q-Q plots)
+- **Class-Specific ROC Analysis** with multi-class AUC calculations
+- **Automated Feature Selection** using XGBoost’s feature importance
+- **Post-Model Diagnostics** including VIF and power analysis
 
 ## Prerequisites
 
 The following R libraries are required:
 
 ```R
-- readr      # CSV file reading
-- labstatR   # Basic statistical functions
-- tseries    # Time series analysis
-- moments    # Skewness and kurtosis calculation
-- VIM        # Missing data handling
-- gridExtra  # Layout for graphical outputs
-- lmtest     # Jarque-Bera test
-- nortest    # Normality tests
-- MASS       # Ordinal logistic regression
-- car        # Model diagnostics
-- olsrr      # Model diagnostics
-- pscl       # Pseudo R-squared
-- pwr        # Statistical power analysis
-- dplyr      # Data manipulation
-- caret      # Machine Learning
-- pROC       # ROC curves
-- caret      # For data preprocessing
+- readr        # CSV file reading
+- labstatR     # Basic statistical functions
+- tseries      # Time series analysis
+- moments      # Skewness and kurtosis calculation
+- VIM          # Missing data handling
+- gridExtra    # Layout for graphical outputs
+- lmtest       # Jarque-Bera test
+- nortest      # Normality tests
+- MASS         # Ordinal logistic regression
+- car          # Model diagnostics
+- olsrr        # Model diagnostics
+- pscl         # Pseudo R-squared
+- pwr          # Statistical power analysis
+- dplyr        # Data manipulation
+- caret        # Machine Learning and data preprocessing
+- pROC         # ROC curves
+- brant        # Proportional odds test for ordinal models
+- xgboost      # Advanced machine learning models
 ```
 
 ## Getting Started
@@ -109,11 +111,17 @@ results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
   - Q-Q plots for normality assessment
 
 5. Predictive Modeling (R/modeling.R)
-  - Ordinal logistic regression
-  - VIF analysis for multicollinearity
-  - Model evaluation metrics
+   - Ordinal Logistic Regression for disease severity prediction
+   - XGBoost for enhanced classification accuracy and feature
+   - VIF analysis for multicollinearity
+   - Model evaluation metrics including pseudo R-squared and AUC
 
-8. ROC Analysis (R/modeling.R)
+6. Post-Model Diagnostics and Validation (R/modeling.R)
+   - Diagnostic plots for model validation
+   - Assessment of multicollinearity and feature importance with XGBoost
+   - Statistical power analysis for model stability
+
+7. ROC Analysis (R/modeling.R)
   - ROC curves for each class
   - AUC calculation per class
   - Comparative performance visualization
@@ -143,7 +151,7 @@ If you use this software in your research, please cite:
 ```R
 @software{CardioSTAT2024,
   author = {Virno, Aldo Jacopo and Bucchignani, Andrea},
-  title = {CardioSTAT: A Comprehensive Statistical Framework for Heart Disease Analysis},
+  title =  {CardioSTAT: Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization},
   year = {2024},
   url = {https://github.com/cardio-stats/CardioSTAT}
 }
