@@ -84,7 +84,7 @@ results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
 
 ## Analysis Pipeline
 
-1. Data Preprocessing (R/preprocessing.R)
+1. Data Preprocessing (R/processing.R)
   - Encoding categorical variables
   - Handling missing values with KNN imputation
   - Applying Robust Scaler for feature scaling
@@ -97,7 +97,7 @@ results <- run_complete_analysis("data/raw/heart_disease_uci.csv")
   - Outlier analysis
   - Correlation matrices
 
-3. Normality Tests (R/statistical_tests.R)
+3. Normality Tests (R/processing.R)
   - Shapiro-Wilk test
   - Kolmogorov-Smirnov test
   - Jarque-Bera test
