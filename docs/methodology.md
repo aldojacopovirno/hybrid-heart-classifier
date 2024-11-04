@@ -6,6 +6,7 @@ This document details the methodologies and statistical analyses applied to the 
 ## 2. Data Preparation
 
 - Loading and Initial Setup
+
 The required libraries for data loading, handling missing values, statistical analysis, and model diagnostics include `readr`, `tseries`, `labstatR`, `MASS`, `dplyr`, `caret`, among others. The heart disease dataset is read into R and its structure and initial rows are examined to understand the data's schema and content.
 
 ```r
