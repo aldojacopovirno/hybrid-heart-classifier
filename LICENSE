@@ -1,4 +1,4 @@
-MIT License with Medical Disclaimer
+**MIT License with Medical Disclaimer**
 
 Copyright (c) 2024 Aldo Jacopo Virno and Andrea Bucchignani
 
@@ -12,7 +12,7 @@ furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-Medical Disclaimer
+**Medical Disclaimer**
 
 THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL AND RESEARCH PURPOSES ONLY AND IS NOT INTENDED TO BE USED AS A MEDICAL DEVICE OR AS A SUBSTITUTE FOR PROFESSIONAL MEDICAL ADVICE, DIAGNOSIS, OR TREATMENT.
 
@@ -25,7 +25,7 @@ THE SOFTWARE PROCESSES AND ANALYZES MEDICAL DATA BUT:
 
 ANY RELIANCE YOU PLACE ON THIS SOFTWARE FOR MEDICAL PURPOSES IS STRICTLY AT YOUR OWN RISK.
 
-General Disclaimer
+**General Disclaimer**
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -35,7 +35,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-Citation and Attribution
+**Citation and Attribution**
 
 If you use this software in your research, please cite it as:
 
@@ -43,10 +43,10 @@ Aldo Jacopo Virno and Andrea Bucchignani. (2024). Optimizing Heart Disease Class
 
 GitHub repository: https://github.com/aldojacopovirno/CardioSTAT
 
-Dependencies
+**Dependencies**
 
 This software uses several R packages, each with their own licenses. Users should comply with the licensing terms of all dependencies listed in the requirements file.
 
-Data Usage
+**Data Usage**
 
 The example dataset used in this software (heart_disease_uci.csv) is from the UCI Machine Learning Repository. Any use of this dataset should comply with UCI’s terms of use and provide appropriate attribution.
