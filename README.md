@@ -6,7 +6,7 @@ This repository provides a comprehensive framework for heart disease classificat
 ## Repository Structure
 
 ```R
-CardioSTAT/
+HybridHeartClassifier/
 ├── R/
 │   ├── preprocessing.R        # Data preprocessing functions
 │   ├── statistical_tests.R    # Implementation of statistical tests
@@ -66,7 +66,7 @@ The following R libraries are required:
 1. Clone the repository:
 
 ```R
-git clone https://github.com/cardio-stats/CardioSTAT.git
+git clone https://github.com/cardio-stats/HybridHeartClassifier.git
 ```
 
 2.	Run the setup script:
@@ -149,11 +149,11 @@ The dataset should be saved in data/raw/ and include the following variables:
 
 If you use this software in your research, please cite:
 ```R
-@software{CardioSTAT2024,
+@software{HybridHeartClassifier2024,
   author = {Virno, Aldo Jacopo and Bucchignani, Andrea},
-  title =  {CardioSTAT: Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization},
+  title =  {HybridHeartClassifier: Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization},
   year = {2024},
-  url = {https://github.com/cardio-stats/CardioSTAT}
+  url = {https://github.com/HybridHeartClassifier}
 }
 ```
 
@@ -165,4 +165,4 @@ Distributed under the MIT License. See LICENSE for more information.
 
 - Aldo Jacopo Virno - aldojacopo@gmail.com
 - Andrea Bucchignani - andreabucchignani@gmail.com
-- Project Link: https://github.com/cardio-stats/CardioSTAT
+- Project Link: https://github.com/HybridHeartClassifier
