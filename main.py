@@ -9,6 +9,7 @@ from eda import run_full_eda
 from olr_model import run_olr_pipeline
 from rf_model import run_rf_pipeline
 from xgb_model import run_xgb_pipeline
+from mlp_model import run_mlp_pipeline
 
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
@@ -68,4 +69,11 @@ if __name__ == "__main__":
     _, xgb_saved = run_xgb_pipeline(onehot_data, target_col="target")
     print("Saved XGB artifacts (charts + metrics):")
     for k, v in xgb_saved.items():
+        print(f"- {k}: {v}")
+
+    # Run MLP pipeline on one-hot dataset and save performance
+    print("\nTraining MLP model and evaluating...")
+    _, mlp_saved = run_mlp_pipeline(onehot_data, target_col="target")
+    print("Saved MLP artifacts (charts + metrics):")
+    for k, v in mlp_saved.items():
         print(f"- {k}: {v}")

@@ -6,3 +6,4 @@ matplotlib
 seaborn
 statsmodels
 xgboost
+imblearn.over_sampling
