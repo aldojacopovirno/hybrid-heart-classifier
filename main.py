@@ -6,6 +6,7 @@ from encoder import encode
 from processing import process
 from onehot_encoding import onehot_encode
 from eda import run_full_eda
+from olr_model import run_olr_pipeline
 
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     encoded_data = load_and_encode()
     # Process dataset (imputations + scaling)
     processed_data = process(encoded_data)
-    # Apply one-hot encoding for 'thal' into boolean features
+    # Apply one-hot encoding for 'thal' into boolean features (model input)
     onehot_data = onehot_encode(processed_data)
 
     print("Encoded data preview:")
@@ -30,7 +31,7 @@ if __name__ == "__main__":
     print(onehot_data.head())
 
     print("\nRunning EDA...")
-    # Use processed dataset for analyses
+    # Use processed dataset for EDA
     eda_results = run_full_eda(processed_data, charts_dir="charts")
 
     print("\nSummary statistics:")
@@ -45,3 +46,10 @@ if __name__ == "__main__":
     print("\nCharts saved:")
     for feat, path in eda_results["charts"].items():
         print(f"- {feat}: {path}")
+
+    # Run OLR pipeline on one-hot dataset and save performance
+    print("\nTraining OLR model and evaluating...")
+    _, saved = run_olr_pipeline(onehot_data, target_col="target")
+    print("Saved OLR artifacts (charts + metrics):")
+    for k, v in saved.items():
+        print(f"- {k}: {v}")
