@@ -1,4 +1,4 @@
-# Hybrid Heart Classifier
+# Optimizing Heart Disease Classification Through Statistical-Mathematical Hybridization: A Comparative Analysis
 
 A hybrid pipeline for multi-class/ordinal classification of heart disease severity on tabular data (UCI). The project implements a complete, modular workflow for data preparation, EDA, modeling with multiple algorithms, evaluation, and artifact traceability, following sound software engineering practices.
 
