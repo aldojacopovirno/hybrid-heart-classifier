@@ -1,0 +1,15 @@
+feature,importance
+cp,0.17736416
+sex,0.104714364
+exang,0.09558036
+ca,0.0816878
+fbs,0.06494203
+thal_reversible,0.06104384
+oldpeak,0.060541824
+chol,0.059690773
+thal_fixed,0.05889779
+age,0.05179284
+slope,0.050355397
+thalch,0.046738908
+restecg,0.04671797
+trestbps,0.039932005

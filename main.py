@@ -8,6 +8,7 @@ from onehot_encoding import onehot_encode
 from eda import run_full_eda
 from olr_model import run_olr_pipeline
 from rf_model import run_rf_pipeline
+from xgb_model import run_xgb_pipeline
 
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
@@ -60,4 +61,11 @@ if __name__ == "__main__":
     _, rf_saved = run_rf_pipeline(onehot_data, target_col="target")
     print("Saved RF artifacts (charts + metrics):")
     for k, v in rf_saved.items():
+        print(f"- {k}: {v}")
+
+    # Run XGBoost pipeline on one-hot dataset and save performance
+    print("\nTraining XGBoost model and evaluating...")
+    _, xgb_saved = run_xgb_pipeline(onehot_data, target_col="target")
+    print("Saved XGB artifacts (charts + metrics):")
+    for k, v in xgb_saved.items():
         print(f"- {k}: {v}")
