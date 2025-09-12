@@ -315,4 +315,3 @@ def run_xgb_pipeline(df: pd.DataFrame, target_col: str = 'target') -> Tuple[XGBA
     artifacts = evaluate_model(train_df, test_df, features, cfg)
     paths = save_artifacts(artifacts, charts_dir='charts', metrics_dir='metrics')
     return artifacts, paths
-
