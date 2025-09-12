@@ -123,8 +123,8 @@ def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def preprocess(df: pd.DataFrame) -> pd.DataFrame:
-    """Full preprocessing pipeline as requested.
+def encode(df: pd.DataFrame) -> pd.DataFrame:
+    """Full encoding pipeline.
 
     Steps:
     - Drop 'id', 'dataset'
