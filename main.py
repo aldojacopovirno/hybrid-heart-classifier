@@ -3,14 +3,32 @@ from __future__ import annotations
 import pandas as pd
 
 from encoder import encode
+from eda import run_full_eda
 
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
     df = pd.read_csv(csv_path)
     encoded_data = encode(df)
-    return encoded_data
 
+    return encoded_data
 
 if __name__ == "__main__":
     encoded_data = load_and_encode()
-    print(encoded_data.head()) 
+    print("Encoded data preview:")
+    print(encoded_data.head())
+
+    print("\nRunning EDA...")
+    eda_results = run_full_eda(encoded_data, charts_dir="charts")
+
+    print("\nSummary statistics:")
+    print(eda_results["summary"])  # DataFrame
+
+    print("\nMissing values per column:")
+    print(eda_results["missing"])  # Series
+
+    print("\nOutliers (IQR rule):")
+    print(eda_results["outliers"])  # DataFrame
+
+    print("\nCharts saved:")
+    for feat, path in eda_results["charts"].items():
+        print(f"- {feat}: {path}")
