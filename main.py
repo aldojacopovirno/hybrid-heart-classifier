@@ -7,6 +7,7 @@ from processing import process
 from onehot_encoding import onehot_encode
 from eda import run_full_eda
 from olr_model import run_olr_pipeline
+from rf_model import run_rf_pipeline
 
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
@@ -52,4 +53,11 @@ if __name__ == "__main__":
     _, saved = run_olr_pipeline(onehot_data, target_col="target")
     print("Saved OLR artifacts (charts + metrics):")
     for k, v in saved.items():
+        print(f"- {k}: {v}")
+
+    # Run Random Forest pipeline on one-hot dataset and save performance
+    print("\nTraining Random Forest model and evaluating...")
+    _, rf_saved = run_rf_pipeline(onehot_data, target_col="target")
+    print("Saved RF artifacts (charts + metrics):")
+    for k, v in rf_saved.items():
         print(f"- {k}: {v}")
