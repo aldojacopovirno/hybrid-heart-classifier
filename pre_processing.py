@@ -1,32 +1,3 @@
-"""Pre-processing utilities for the UCI Heart Disease dataset.
-
-This module provides a reusable `preprocessing` class (lowercase by
-explicit UX requirement) that performs:
-
-- loading of a CSV dataset
-- light EDA logging (shape, dtypes, nulls, numerics describe, unique values)
-- specific transformations (drop, rename, categorical encodings)
-
-Notes
------
-- The class name `preprocessing` intentionally violates common naming
-  conventions (PEP8 suggests CapWords) to match a product requirement.
-  This deviation is documented here for clarity.
-- Transformations are conservative and log warnings for missing columns or
-  unexpected values; unknown categorical values map to NaN.
-
-Dependencies
-------------
-- pandas (numpy is optional and not required here)
-
-Examples
---------
->>> from pre_processing import preprocessing
->>> pp = preprocessing()
->>> df = pp.run()  # uses default path data/heart_disease_uci.csv
->>> df.shape  # doctest: +SKIP
-"""
-
 from __future__ import annotations
 
 from dataclasses import dataclass, field

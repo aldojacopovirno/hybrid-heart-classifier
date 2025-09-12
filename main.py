@@ -1,17 +1,3 @@
-"""CLI entrypoint for running the UCI Heart Disease pre-processing pipeline.
-
-This module wires the reusable `preprocessing` class from `pre_processing`
-and exposes a small command-line interface for convenience.
-
-Examples
---------
-Run with defaults (saves to data/pre_processed_heart_disease_uci.csv):
-    python main.py
-
-Run with explicit input and output paths:
-    python main.py --input-path data/heart_disease_uci.csv --output-path data/custom.csv
-"""
-
 from __future__ import annotations
 
 import argparse
