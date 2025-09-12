@@ -3,6 +3,7 @@ from __future__ import annotations
 import pandas as pd
 
 from encoder import encode
+from processing import process
 from eda import run_full_eda
 
 
@@ -14,11 +15,17 @@ def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFram
 
 if __name__ == "__main__":
     encoded_data = load_and_encode()
+    processed_data = process(encoded_data)
+
     print("Encoded data preview:")
     print(encoded_data.head())
 
+    print("\nProcessed data preview:")
+    print(processed_data.head())
+
     print("\nRunning EDA...")
-    eda_results = run_full_eda(encoded_data, charts_dir="charts")
+    # Use processed dataset for analyses
+    eda_results = run_full_eda(processed_data, charts_dir="charts")
 
     print("\nSummary statistics:")
     print(eda_results["summary"])  # DataFrame
