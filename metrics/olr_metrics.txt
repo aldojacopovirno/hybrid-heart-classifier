@@ -21,7 +21,7 @@ Dep. Variable:                 target   Log-Likelihood:                -735.78
 Model:                   OrderedModel   AIC:                             1508.
 Method:            Maximum Likelihood   BIC:                             1590.
 Date:                Fri, 12 Sep 2025                                         
-Time:                        18:56:58                                         
+Time:                        19:04:51                                         
 No. Observations:                 736                                         
 Df Residuals:                     718                                         
 Df Model:                          14                                         
