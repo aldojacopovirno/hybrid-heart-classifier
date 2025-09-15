@@ -2,17 +2,16 @@ from __future__ import annotations
 
 import pandas as pd
 
-from encoder import encode
-from processing import process
-from onehot_encoding import onehot_encode
-from eda import run_full_eda
-from olr_model import run_olr_pipeline
-from rf_model import run_rf_pipeline
-from xgb_model import run_xgb_pipeline
-from mlp_model import run_mlp_pipeline
+from script.encoder import encode
+from script.processing import process
+from script.onehot_encoding import onehot_encode
+from script.eda import run_full_eda
+from script.olr_model import run_olr_pipeline
+from script.rf_model import run_rf_pipeline
+from script.xgb_model import run_xgb_pipeline
+from script.mlp_model import run_mlp_pipeline
 from typing import Dict, Any, List
 import numpy as np
-
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
     df = pd.read_csv(csv_path)
