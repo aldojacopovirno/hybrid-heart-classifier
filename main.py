@@ -14,6 +14,19 @@ from typing import Dict, Any, List
 import numpy as np
 
 def load_and_encode(csv_path: str = "data/heart_disease_uci.csv") -> pd.DataFrame:
+    """Load the raw dataset and convert categorical fields to numeric codes.
+
+    Parameters
+    ----------
+    csv_path : str, optional
+        Path to the UCI heart disease CSV file.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Encoded dataset ready for downstream processing.
+    """
+
     df = pd.read_csv(csv_path)
     encoded_data = encode(df)
     return encoded_data
@@ -82,6 +95,23 @@ if __name__ == "__main__":
     # Build comparative metrics table across models
     print("\nComparing models with common metrics...")
     def summarize_model(name: str, art: Any) -> Dict[str, Any]:
+        """Aggregate common metrics from a model artifact.
+
+        Parameters
+        ----------
+        name : str
+            Identifier for the model being summarized.
+        art : Any
+            Artifact namespace with evaluation attributes such as confusion
+            matrix and ROC AUC scores.
+
+        Returns
+        -------
+        dict
+            Dictionary collecting macro and weighted metrics plus confusion
+            matrix statistics.
+        """
+
         # Common metrics + additional: AUC (macro), CV AUC mean, Accuracy, Precision/Recall/F1 (macro & weighted),
         # per-class support, MCC, balanced_accuracy, specificity_macro.
         cm = getattr(art, 'confusion', None)

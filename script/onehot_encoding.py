@@ -4,13 +4,23 @@ import pandas as pd
 
 
 def encode_thal_to_booleans(df: pd.DataFrame) -> pd.DataFrame:
-    """Create boolean features thal_fixed and thal_reversible from 'thal'.
+    """Convert ``thal`` into mutually exclusive boolean indicator columns.
 
-    Rules:
-    - thal == 1 -> thal_fixed = 1, thal_reversible = 0
-    - thal == 2 -> thal_fixed = 0, thal_reversible = 1
-    - thal == 0 or other/NaN -> thal_fixed = 0, thal_reversible = 0
-    Drops the original 'thal' column after creating the booleans.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset that may contain the integer-encoded ``thal`` feature.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with ``thal_fixed`` and ``thal_reversible`` indicators and
+        the original ``thal`` column removed when present.
+
+    Notes
+    -----
+    Values of 1 map to ``thal_fixed``, values of 2 map to ``thal_reversible``
+    and other entries produce zeros for both indicators.
     """
     out = df.copy()
     if "thal" not in out.columns:
@@ -29,6 +39,17 @@ def encode_thal_to_booleans(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def onehot_encode(df: pd.DataFrame) -> pd.DataFrame:
-    """Wrapper to apply one-hot transformations required by the project."""
+    """Apply project-specific one-hot encoding transformations.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset with categorical columns requiring bespoke one-hot encoding.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with the applied one-hot transformations.
+    """
     out = encode_thal_to_booleans(df)
     return out

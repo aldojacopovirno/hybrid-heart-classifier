@@ -12,15 +12,36 @@ from scipy import stats
 
 
 def ensure_charts_dir(path: str = "charts") -> str:
+    """Create the charts directory if it does not already exist.
+
+    Parameters
+    ----------
+    path : str, optional
+        Directory where plots should be stored.
+
+    Returns
+    -------
+    str
+        Absolute or relative path to the directory that now exists.
+    """
+
     os.makedirs(path, exist_ok=True)
     return path
 
 
 def feature_summary(df: pd.DataFrame) -> pd.DataFrame:
-    """Return descriptive stats for each numeric feature.
+    """Compute descriptive statistics for every numeric column.
 
-    Includes: count, missing, mean, median, std, var, min, q1, q3, max,
-    skewness, kurtosis (Fisher), iqr.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric features to profile.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Table of summary statistics including count, missing values, mean,
+        quantiles, spread measures, skewness, and kurtosis.
     """
     numeric_df = df.select_dtypes(include=[np.number])
     desc = numeric_df.describe(percentiles=[0.25, 0.5, 0.75]).T
@@ -50,14 +71,35 @@ def feature_summary(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def detect_missing(df: pd.DataFrame) -> pd.Series:
-    """Return count of missing values per column."""
+    """Count missing observations for each column.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset to inspect for null entries.
+
+    Returns
+    -------
+    pandas.Series
+        Series indexed by column name containing the number of missing
+        values per column.
+    """
     return df.isna().sum()
 
 
 def detect_outliers_iqr(df: pd.DataFrame) -> pd.DataFrame:
-    """Flag outliers using IQR rule for numeric columns.
+    """Detect numeric outliers using the interquartile range rule.
 
-    Returns a DataFrame with columns: lower_bound, upper_bound, outlier_count, outlier_ratio.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset whose numeric columns should be evaluated.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Outlier summary containing the lower and upper bounds, the count of
+        flagged rows, and the outlier ratio for each feature.
     """
     numeric_df = df.select_dtypes(include=[np.number])
     q1 = numeric_df.quantile(0.25)
@@ -82,9 +124,21 @@ def plot_feature_distributions(
     charts_dir: str = "charts",
     figsize: Tuple[int, int] = (8, 5),
 ) -> Dict[str, str]:
-    """Plot histogram + KDE for each numeric feature with overlaid normal PDF.
+    """Create distribution plots for numeric features and persist them to disk.
 
-    Saves one PNG per feature into charts_dir. Returns a mapping feature->filepath.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric columns to visualize.
+    charts_dir : str, optional
+        Directory where the generated PNG files are saved.
+    figsize : tuple of int, optional
+        Figure size passed to Matplotlib when creating each plot.
+
+    Returns
+    -------
+    dict
+        Mapping from feature name to the corresponding saved figure path.
     """
     ensure_charts_dir(charts_dir)
     sns.set(style="whitegrid")
@@ -124,9 +178,20 @@ def plot_feature_distributions(
 
 
 def run_full_eda(df: pd.DataFrame, charts_dir: str = "charts") -> Dict[str, Any]:
-    """Run full EDA suite and return results in a dictionary.
+    """Execute the entire exploratory data analysis workflow.
 
-    Returns keys: summary (DataFrame), missing (Series), outliers (DataFrame), charts (dict)
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Processed dataset used for descriptive analysis and visualization.
+    charts_dir : str, optional
+        Directory where distribution plots are stored.
+
+    Returns
+    -------
+    dict
+        Dictionary containing summary statistics, missing-value counts,
+        outlier diagnostics, and chart file paths.
     """
     results: Dict[str, Any] = {}
     results["summary"] = feature_summary(df)

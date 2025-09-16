@@ -4,16 +4,35 @@ import pandas as pd
 
 
 def drop_unused_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Drop columns not used for modeling/analysis.
+    """Remove identifier columns that are irrelevant for modeling.
 
-    Drops: id, dataset (if present).
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset containing potential identifier columns.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame without the `id` and `dataset` columns when present.
     """
     cols_to_drop = [c for c in ["id", "dataset"] if c in df.columns]
     return df.drop(columns=cols_to_drop)
 
 
 def rename_target(df: pd.DataFrame) -> pd.DataFrame:
-    """Rename label column to 'target'. Supports 'num' or typo 'tagrt'."""
+    """Rename the label column to ``target`` for consistency.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset that may contain ``num`` or ``tagrt`` columns.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with the label column renamed to ``target`` when detected.
+    """
     rename_map = {}
     if "num" in df.columns:
         rename_map["num"] = "target"
@@ -25,15 +44,23 @@ def rename_target(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
-    """Map categorical/string fields to numeric codes with explicit dictionaries.
+    """Convert categorical variables to numeric codes using explicit mappings.
 
-    - sex: Male/Female -> 0/1 (accepts case-insensitive and 0/1 passthrough)
-    - cp: typical angina/atypical angina/non-anginal/asymptomatic -> 0/1/2/3
-    - fbs: FALSE/TRUE -> 0/1
-    - restecg: normal/st-t abnormality/lv hypertrophy -> 0/1/2
-    - exang: FALSE/TRUE -> 0/1
-    - slope: flat/downsloping/upsloping -> 0/1/2
-    - thal: normal/fixed defect/reversible defect -> 0/1/2
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset containing categorical heart-disease attributes.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with categorical columns mapped to integers and integer dtypes enforced when possible.
+
+    Notes
+    -----
+    The function handles several fields including ``sex``, ``cp``, ``fbs``,
+    ``restecg``, ``exang``, ``slope`` and ``thal`` with tolerant mappings for
+    string variants and numeric passthrough values.
     """
 
     df = df.copy()
@@ -124,12 +151,18 @@ def encode_categoricals(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def encode(df: pd.DataFrame) -> pd.DataFrame:
-    """Full encoding pipeline.
+    """Run the complete encoding pipeline for the heart disease dataset.
 
-    Steps:
-    - Drop 'id', 'dataset'
-    - Rename 'num' -> 'target'
-    - Encode categoricals to numeric codes
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Raw dataset prior to cleaning and categorical encoding.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Encoded dataset with identifier columns dropped, target renamed, and
+        categorical values transformed to integers.
     """
     df = drop_unused_features(df)
     df = rename_target(df)

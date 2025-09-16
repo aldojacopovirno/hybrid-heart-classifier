@@ -17,15 +17,39 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from xgboost import XGBClassifier
 
 
-# -------------------------
-# Data diagnostics helpers
-# -------------------------
-
 def compute_correlations(df: pd.DataFrame) -> pd.DataFrame:
+    """Compute Pearson correlations among numeric predictors.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric variables for analysis.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Correlation matrix evaluated on numeric columns.
+    """
+
     return df.corr(numeric_only=True)
 
 
 def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
+    """Derive variance inflation factors for XGBoost feature set.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset providing the predictor values.
+    features : list of str
+        Feature names used to compute VIF.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Table of features with corresponding VIF values.
+    """
+
     X = df[features].copy()
     X = sm.add_constant(X, has_constant='add')
     vif_data = []
@@ -70,6 +94,21 @@ class XGBArtifacts:
 
 
 def split_data(df: pd.DataFrame, cfg: XGBConfig) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Split data into stratified training and testing partitions.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing features and target.
+    cfg : XGBConfig
+        Configuration specifying split proportions and target name.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        Stratified training and test dataframes.
+    """
+
     train_df, test_df = train_test_split(
         df, test_size=cfg.test_size, random_state=cfg.random_state, stratify=df[cfg.target_col]
     )
@@ -77,6 +116,23 @@ def split_data(df: pd.DataFrame, cfg: XGBConfig) -> Tuple[pd.DataFrame, pd.DataF
 
 
 def fit_xgb(train_df: pd.DataFrame, features: List[str], cfg: XGBConfig) -> XGBClassifier:
+    """Train an XGBoost classifier with configuration defaults.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training dataset used for fitting.
+    features : list of str
+        Predictor columns supplied to the model.
+    cfg : XGBConfig
+        Hyperparameters controlling the XGBoost training.
+
+    Returns
+    -------
+    xgboost.XGBClassifier
+        Fitted gradient boosting classifier.
+    """
+
     X = train_df[features].values
     y = train_df[cfg.target_col].values
 
@@ -99,10 +155,44 @@ def fit_xgb(train_df: pd.DataFrame, features: List[str], cfg: XGBConfig) -> XGBC
 
 
 def predict_proba(clf: XGBClassifier, X: pd.DataFrame) -> np.ndarray:
+    """Predict class probabilities using a trained XGBoost model.
+
+    Parameters
+    ----------
+    clf : xgboost.XGBClassifier
+        Fitted XGBoost classifier.
+    X : pandas.DataFrame
+        Feature matrix for which probabilities are required.
+
+    Returns
+    -------
+    numpy.ndarray
+        Probability estimates per class for each observation.
+    """
+
     return clf.predict_proba(X.values)
 
 
 def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List[str], cfg: XGBConfig) -> XGBArtifacts:
+    """Fit XGBoost and compute evaluation diagnostics and artifacts.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training data used for model fitting and diagnostics.
+    test_df : pandas.DataFrame
+        Evaluation data used for scoring the model.
+    features : list of str
+        Predictor names considered in the model.
+    cfg : XGBConfig
+        XGBoost configuration including hyperparameters and split details.
+
+    Returns
+    -------
+    XGBArtifacts
+        Aggregated evaluation outputs including metrics, ROC data, and diagnostics.
+    """
+
     # Diagnostics on training data
     corr = compute_correlations(train_df[features + [cfg.target_col]])
     vif = compute_vif(train_df, features)
@@ -197,6 +287,23 @@ def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List
 
 
 def save_artifacts(art: XGBArtifacts, charts_dir: str = 'charts', metrics_dir: str = 'metrics') -> Dict[str, str]:
+    """Persist XGBoost evaluation artifacts as plots and tables.
+
+    Parameters
+    ----------
+    art : XGBArtifacts
+        Artifact bundle returned by ``evaluate_model``.
+    charts_dir : str, optional
+        Directory where visualizations are stored.
+    metrics_dir : str, optional
+        Directory where textual and CSV outputs are saved.
+
+    Returns
+    -------
+    dict
+        Mapping of artifact names to filesystem paths.
+    """
+
     import os
     os.makedirs(charts_dir, exist_ok=True)
     os.makedirs(metrics_dir, exist_ok=True)
@@ -309,6 +416,21 @@ def save_artifacts(art: XGBArtifacts, charts_dir: str = 'charts', metrics_dir: s
 
 
 def run_xgb_pipeline(df: pd.DataFrame, target_col: str = 'target') -> Tuple[XGBArtifacts, Dict[str, str]]:
+    """Run the XGBoost training, evaluation, and artifact-saving workflow.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Prepared dataset containing features and the target column.
+    target_col : str, optional
+        Target column name to predict.
+
+    Returns
+    -------
+    tuple
+        XGBoost artifacts alongside saved artifact paths.
+    """
+
     cfg = XGBConfig(target_col=target_col)
     features = [c for c in df.columns if c != target_col]
     train_df, test_df = split_data(df, cfg)

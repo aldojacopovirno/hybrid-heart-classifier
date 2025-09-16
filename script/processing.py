@@ -12,9 +12,19 @@ KNN_IMPUTE_COLS: List[str] = ["trestbps", "chol", "restecg", "thalch", "oldpeak"
 
 
 def impute_zeros(df: pd.DataFrame, cols: Iterable[str] = ZERO_IMPUTE_COLS) -> pd.DataFrame:
-    """Impute NaNs with 0 only for specified columns.
+    """Fill missing values with zero for selected columns.
 
-    Columns not present in df are ignored.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Input dataset containing potential missing entries.
+    cols : Iterable of str, optional
+        Column names where zeros should replace missing values.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with specified columns imputed while others remain untouched.
     """
     out = df.copy()
     for c in cols:
@@ -24,9 +34,21 @@ def impute_zeros(df: pd.DataFrame, cols: Iterable[str] = ZERO_IMPUTE_COLS) -> pd
 
 
 def impute_knn(df: pd.DataFrame, cols: Iterable[str] = KNN_IMPUTE_COLS, n_neighbors: int = 5) -> pd.DataFrame:
-    """Apply KNNImputer only to specified columns.
+    """Impute missing numeric features using a K-nearest neighbors strategy.
 
-    Works with numeric columns; silently skips columns not in df.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric columns requiring imputation.
+    cols : Iterable of str, optional
+        Columns eligible for the KNN-based imputations.
+    n_neighbors : int, optional
+        Number of neighbors used in the imputation algorithm.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with the selected columns imputed via ``KNNImputer``.
     """
     out = df.copy()
     target_cols = [c for c in cols if c in out.columns]
@@ -40,9 +62,19 @@ def impute_knn(df: pd.DataFrame, cols: Iterable[str] = KNN_IMPUTE_COLS, n_neighb
 
 
 def robust_scale_all_but_target(df: pd.DataFrame, target_col: str = "target") -> pd.DataFrame:
-    """Apply RobustScaler to all features except target.
+    """Scale feature columns using ``RobustScaler`` while preserving the target.
 
-    Leaves target untouched if present.
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing both features and the target column.
+    target_col : str, optional
+        Name of the target column that should remain unchanged.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with scaled features and the target column untouched.
     """
     out = df.copy()
     feature_cols = [c for c in out.columns if c != target_col]
@@ -54,14 +86,20 @@ def robust_scale_all_but_target(df: pd.DataFrame, target_col: str = "target") ->
 
 
 def process(df: pd.DataFrame) -> pd.DataFrame:
-    """Full processing pipeline as requested.
+    """Execute the default preprocessing pipeline for modeling.
 
-    - Zero-impute ca, slope, exang, fbs, cp, thal
-    - KNN-impute trestbps, chol, restecg, thalch, oldpeak
-    - Robust scale all columns except target
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Encoded dataset awaiting imputation and scaling.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Processed dataset with zero-imputed categorical columns, KNN-imputed
+        continuous columns, and robust scaling applied to features.
     """
     out = impute_zeros(df)
     out = impute_knn(out)
     out = robust_scale_all_but_target(out, target_col="target")
     return out
-

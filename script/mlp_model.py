@@ -21,15 +21,39 @@ except Exception:  # fallback if imblearn not available
     SMOTE = None  # type: ignore
 
 
-# -------------------------
-# Data diagnostics helpers
-# -------------------------
-
 def compute_correlations(df: pd.DataFrame) -> pd.DataFrame:
+    """Compute correlations across numeric predictors for diagnostics.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric columns to evaluate.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Correlation matrix of numeric features.
+    """
+
     return df.corr(numeric_only=True)
 
 
 def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
+    """Calculate variance inflation factors for neural network inputs.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset providing feature values.
+    features : list of str
+        Feature names to test for multicollinearity.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Table of features with associated VIF scores.
+    """
+
     if not features:
         return pd.DataFrame(columns=["feature", "vif"])
     X = df[features].copy()
@@ -45,10 +69,6 @@ def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
         vif_data.append({'feature': col, 'vif': float(vif) if np.isfinite(vif) else np.nan})
     return pd.DataFrame(vif_data).sort_values('vif', ascending=False).reset_index(drop=True)
 
-
-# -------------------------
-# Modeling helpers
-# -------------------------
 
 @dataclass
 class MLPConfig:
@@ -75,6 +95,21 @@ class MLPArtifacts:
 
 
 def split_data(df: pd.DataFrame, cfg: MLPConfig) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Divide the dataset into stratified training and testing sets.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing predictors and the target label.
+    cfg : MLPConfig
+        Configuration object describing split proportions and target name.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        Stratified training and testing dataframes.
+    """
+
     train_df, test_df = train_test_split(
         df, test_size=cfg.test_size, random_state=cfg.random_state, stratify=df[cfg.target_col]
     )
@@ -82,6 +117,24 @@ def split_data(df: pd.DataFrame, cfg: MLPConfig) -> Tuple[pd.DataFrame, pd.DataF
 
 
 def maybe_smote(X: np.ndarray, y: np.ndarray, random_state: int) -> Tuple[np.ndarray, np.ndarray, Dict[str, int]]:
+    """Apply SMOTE oversampling when available to balance the classes.
+
+    Parameters
+    ----------
+    X : numpy.ndarray
+        Feature matrix for the training subset.
+    y : numpy.ndarray
+        Target labels for the training subset.
+    random_state : int
+        Random seed used by SMOTE for reproducibility.
+
+    Returns
+    -------
+    tuple
+        Resampled ``X`` and ``y`` arrays plus a dictionary summarizing class
+        counts after resampling.
+    """
+
     if SMOTE is None:
         # imblearn not available; return as-is, with counts
         _, counts = np.unique(y, return_counts=True)
@@ -99,6 +152,23 @@ def maybe_smote(X: np.ndarray, y: np.ndarray, random_state: int) -> Tuple[np.nda
 
 
 def fit_mlp(train_df: pd.DataFrame, features: List[str], cfg: MLPConfig) -> MLPClassifier:
+    """Train a multilayer perceptron classifier with optional SMOTE balancing.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training dataset containing predictors and target labels.
+    features : list of str
+        Feature names fed into the neural network.
+    cfg : MLPConfig
+        Hyperparameters controlling the neural network architecture.
+
+    Returns
+    -------
+    sklearn.neural_network.MLPClassifier
+        Fitted neural network classifier.
+    """
+
     X = train_df[features].values
     y = train_df[cfg.target_col].values
     # Apply SMOTE on training data only
@@ -117,10 +187,44 @@ def fit_mlp(train_df: pd.DataFrame, features: List[str], cfg: MLPConfig) -> MLPC
 
 
 def predict_proba(clf: MLPClassifier, X: pd.DataFrame) -> np.ndarray:
+    """Predict class probabilities using the trained MLP classifier.
+
+    Parameters
+    ----------
+    clf : sklearn.neural_network.MLPClassifier
+        Trained MLP model.
+    X : pandas.DataFrame
+        Feature matrix for inference.
+
+    Returns
+    -------
+    numpy.ndarray
+        Probability estimates for each class.
+    """
+
     return clf.predict_proba(X.values)
 
 
 def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List[str], cfg: MLPConfig) -> MLPArtifacts:
+    """Fit the MLP model, perform diagnostics, and compute evaluation metrics.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training subset used for model fitting and diagnostics.
+    test_df : pandas.DataFrame
+        Hold-out subset used for evaluation metrics.
+    features : list of str
+        Columns supplied to the classifier.
+    cfg : MLPConfig
+        Configuration with hyperparameters and split details.
+
+    Returns
+    -------
+    MLPArtifacts
+        Artifact bundle containing diagnostics, ROC data, and confusion matrix.
+    """
+
     # Diagnostics
     corr = compute_correlations(train_df[features + [cfg.target_col]])
     vif = compute_vif(train_df, features)
@@ -202,6 +306,23 @@ def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List
 
 
 def save_artifacts(art: MLPArtifacts, charts_dir: str = 'charts', metrics_dir: str = 'metrics') -> Dict[str, str]:
+    """Persist MLP evaluation artifacts (plots, text, CSVs) to disk.
+
+    Parameters
+    ----------
+    art : MLPArtifacts
+        Outputs returned by ``evaluate_model``.
+    charts_dir : str, optional
+        Directory used for saving figures.
+    metrics_dir : str, optional
+        Directory used for saving textual summaries and CSV files.
+
+    Returns
+    -------
+    dict
+        Mapping between artifact names and their file paths.
+    """
+
     import os
     os.makedirs(charts_dir, exist_ok=True)
     os.makedirs(metrics_dir, exist_ok=True)
@@ -295,10 +416,24 @@ def save_artifacts(art: MLPArtifacts, charts_dir: str = 'charts', metrics_dir: s
 
 
 def run_mlp_pipeline(df: pd.DataFrame, target_col: str = 'target') -> Tuple[MLPArtifacts, Dict[str, str]]:
+    """Execute the MLP modeling pipeline and persist generated artifacts.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset prepared for modeling.
+    target_col : str, optional
+        Name of the target column to predict.
+
+    Returns
+    -------
+    tuple
+        MLP artifacts and saved artifact paths.
+    """
+
     cfg = MLPConfig(target_col=target_col)
     features = [c for c in df.columns if c != target_col]
     train_df, test_df = split_data(df, cfg)
     artifacts = evaluate_model(train_df, test_df, features, cfg)
     paths = save_artifacts(artifacts, charts_dir='charts', metrics_dir='metrics')
     return artifacts, paths
-

@@ -21,18 +21,7 @@ A modular research pipeline for ordinal and multi-class heart disease classifica
 └── LICENSE                     # MIT License
 ```
 
-## 1. Dataset
-- **Source**: UCI Heart Disease (Cleveland subset).
-- **Observations**: 303 patients, 6 categorical, 7 numerical predictors.
-- **Target**: `num` (0: no disease, 1–4: increasing severity).
-- **Preprocessing**:
-  - Handle missing values (e.g., `ca`, `thal`) via median/most-frequent imputation.
-  - Ordinal-encode target, one-hot encode `thal`, integer encode other categoricals.
-  - Standardize continuous variables with `StandardScaler`.
-
-> Place the raw CSV at `data/heart_disease_uci.csv`.
-
-## 2. Pipeline Architecture (`main.py`)
+## Pipeline Architecture (`main.py`)
 1. **Load & Encode** (`script/encoder.py`, `script/onehot_encoding.py`): data ingestion, categorical transforms.
 2. **Processing** (`script/processing.py`): type casting, imputation, scaling.
 3. **EDA** (`script/eda.py`): summary statistics, correlation heatmaps, density plots, class distribution charts (saved under `charts/`).
@@ -51,7 +40,7 @@ A modular research pipeline for ordinal and multi-class heart disease classifica
    - Model-specific reports (`metrics/{model_name}_metrics.txt`).
    - Serialized artifacts if enabled (see configuration).
 
-## 3. Installation
+## Installation
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .\.venv\Scripts\activate
@@ -62,7 +51,7 @@ pip install -r requirements.txt
 - Python 3.10+ recommended.
 - Ensure `gcc`/`clang` toolchain for compiling some `xgboost` wheels on Linux.
 
-## 4. Running Experiments
+## Running Experiments
 ```bash
 python main.py \
   --test-size 0.2 \
@@ -76,7 +65,7 @@ python main.py \
 - Metrics: `metrics/` (`*_metrics.txt`, `comparative_metrics.csv`).
 - Optional serialized models: `artifacts/` (create automatically when `--export-models` is set).
 
-## 5. Configuration Overview
+## Configuration Overview
 | Component | Key Parameters | Location |
 |-----------|----------------|----------|
 | Train/Test Split | `test_size`, `random_state` | `main.py` CLI |
@@ -87,17 +76,17 @@ python main.py \
 
 Adjust defaults either via CLI flags (extend `argparse` block in `main.py`) or by editing the respective config dictionaries.
 
-## 6. Development Notes
+## Development Notes
 - Follow PEP 8, use type hints where practical.
 - Prefer `poetry run`/`pip-tools` if migrating dependency management; update instructions accordingly.
 - Run linting (`flake8`, `black --check`) before committing (configure via `pre-commit` if desired).
 - Unit tests: add `pytest` suites for data transformers and metric computations; mocks for file IO recommended.
 
-## 7. Contributing
+## Contributing
 1. Fork and branch from `main`.
 2. Document experimental settings in PR descriptions (split seed, hyperparameters).
 3. Attach key plots or metrics as PR artifacts.
 4. Ensure generated assets are reproducible; do not commit large binaries.
 
-## 8. License
+## License
 Released under the MIT License - see `LICENSE`.

@@ -16,15 +16,39 @@ import statsmodels.api as sm
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
 
-# -------------------------
-# Data diagnostics helpers
-# -------------------------
-
 def compute_correlations(df: pd.DataFrame) -> pd.DataFrame:
+    """Calculate pairwise correlations between numeric features.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing numeric columns to analyze.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Correlation matrix across numeric variables.
+    """
+
     return df.corr(numeric_only=True)
 
 
 def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
+    """Estimate variance inflation factors for given predictors.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset that provides the underlying feature values.
+    features : list of str
+        Predictor names subject to multicollinearity diagnostics.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame containing features and their associated VIF scores.
+    """
+
     if not features:
         return pd.DataFrame(columns=["feature", "vif"])
     X = df[features].copy()
@@ -41,10 +65,6 @@ def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
         vif_data.append({'feature': col, 'vif': float(vif) if np.isfinite(vif) else np.nan})
     return pd.DataFrame(vif_data).sort_values('vif', ascending=False).reset_index(drop=True)
 
-
-# -------------------------
-# Modeling helpers
-# -------------------------
 
 @dataclass
 class RFConfig:
@@ -70,6 +90,21 @@ class RFArtifacts:
 
 
 def split_data(df: pd.DataFrame, cfg: RFConfig) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Partition data into stratified training and testing sets.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset to separate into training and testing subsets.
+    cfg : RFConfig
+        Configuration object containing split parameters.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        Stratified training and testing dataframes.
+    """
+
     train_df, test_df = train_test_split(
         df, test_size=cfg.test_size, random_state=cfg.random_state, stratify=df[cfg.target_col]
     )
@@ -77,6 +112,23 @@ def split_data(df: pd.DataFrame, cfg: RFConfig) -> Tuple[pd.DataFrame, pd.DataFr
 
 
 def fit_rf(train_df: pd.DataFrame, features: List[str], cfg: RFConfig) -> RandomForestClassifier:
+    """Train a Random Forest classifier on the provided dataset.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training dataset containing predictors and target.
+    features : list of str
+        Feature columns used for training.
+    cfg : RFConfig
+        Random Forest configuration including estimator count and depth.
+
+    Returns
+    -------
+    sklearn.ensemble.RandomForestClassifier
+        Fitted Random Forest model.
+    """
+
     X = train_df[features].values
     y = train_df[cfg.target_col].values
     clf = RandomForestClassifier(
@@ -91,10 +143,44 @@ def fit_rf(train_df: pd.DataFrame, features: List[str], cfg: RFConfig) -> Random
 
 
 def predict_proba(clf: RandomForestClassifier, X: pd.DataFrame) -> np.ndarray:
+    """Predict class probabilities using a trained Random Forest model.
+
+    Parameters
+    ----------
+    clf : sklearn.ensemble.RandomForestClassifier
+        Trained classifier.
+    X : pandas.DataFrame
+        Feature matrix for which probabilities are required.
+
+    Returns
+    -------
+    numpy.ndarray
+        Probability matrix where each column corresponds to a class.
+    """
+
     return clf.predict_proba(X.values)
 
 
 def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List[str], cfg: RFConfig) -> RFArtifacts:
+    """Fit the Random Forest model and compute diagnostics as artifacts.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training subset used to fit the classifier and derive diagnostics.
+    test_df : pandas.DataFrame
+        Hold-out subset used for evaluation metrics.
+    features : list of str
+        Predictor columns included in the model.
+    cfg : RFConfig
+        Model configuration with hyperparameters and split details.
+
+    Returns
+    -------
+    RFArtifacts
+        Structured results including diagnostics, ROC data, and metrics.
+    """
+
     # Diagnostics on training data
     corr = compute_correlations(train_df[features + [cfg.target_col]])
     vif = compute_vif(train_df, features)
@@ -186,6 +272,23 @@ def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List
 
 
 def save_artifacts(art: RFArtifacts, charts_dir: str = 'charts', metrics_dir: str = 'metrics') -> Dict[str, str]:
+    """Save plots and tabular outputs produced by the Random Forest pipeline.
+
+    Parameters
+    ----------
+    art : RFArtifacts
+        Evaluation artifacts returned by ``evaluate_model``.
+    charts_dir : str, optional
+        Directory where visualizations are saved.
+    metrics_dir : str, optional
+        Directory where text summaries and CSV files are stored.
+
+    Returns
+    -------
+    dict
+        Mapping between artifact identifiers and file paths.
+    """
+
     import os
     os.makedirs(charts_dir, exist_ok=True)
     os.makedirs(metrics_dir, exist_ok=True)
@@ -298,6 +401,21 @@ def save_artifacts(art: RFArtifacts, charts_dir: str = 'charts', metrics_dir: st
 
 
 def run_rf_pipeline(df: pd.DataFrame, target_col: str = 'target') -> Tuple[RFArtifacts, Dict[str, str]]:
+    """Execute the full Random Forest training and evaluation workflow.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset to model after preprocessing.
+    target_col : str, optional
+        Target column name within the dataset.
+
+    Returns
+    -------
+    tuple
+        Random Forest artifacts and saved artifact paths.
+    """
+
     cfg = RFConfig(target_col=target_col)
     features = [c for c in df.columns if c != target_col]
     train_df, test_df = split_data(df, cfg)

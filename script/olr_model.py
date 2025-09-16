@@ -15,17 +15,40 @@ import statsmodels.api as sm
 from statsmodels.miscmodels.ordinal_model import OrderedModel
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 
-
-# -------------------------
-# Data diagnostics helpers
-# -------------------------
-
 def compute_correlations(df: pd.DataFrame) -> pd.DataFrame:
+    """Calculate pairwise Pearson correlations for numeric columns.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing the features and target used for diagnostics.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Correlation matrix limited to numeric variables.
+    """
+
     corr = df.corr(numeric_only=True)
     return corr
 
 
 def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
+    """Compute variance inflation factors for a set of predictors.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset providing the feature columns.
+    features : list of str
+        Feature names for which VIF diagnostics should be estimated.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Table containing feature names and their corresponding VIF values.
+    """
+
     X = df[features].copy()
     X = sm.add_constant(X, has_constant='add')
     vif_data = []
@@ -38,10 +61,28 @@ def compute_vif(df: pd.DataFrame, features: List[str]) -> pd.DataFrame:
 
 
 def box_tidwell_test(df: pd.DataFrame, y_col: str, cont_features: List[str]) -> pd.DataFrame:
+    """Approximate the Box-Tidwell test for ordinal logistic regression.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset containing the outcome and continuous predictors.
+    y_col : str
+        Name of the ordinal outcome column.
+    cont_features : list of str
+        Continuous predictors to evaluate with the Box-Tidwell heuristic.
+
+    Returns
+    -------
+    pandas.DataFrame
+        P-values associated with the additional ``x * log(x)`` terms.
+
+    Notes
+    -----
+    Inputs are shifted to be strictly positive prior to applying the log
+    transformation when necessary.
     """
-    Box-Tidwell for ordinal logit (approx) by testing added terms x*log(x).
-    Note: Only for strictly positive continuous predictors.
-    """
+
     results = []
     # Ensure positive by small shift if needed
     eps = 1e-6
@@ -64,12 +105,20 @@ def box_tidwell_test(df: pd.DataFrame, y_col: str, cont_features: List[str]) -> 
 
 
 def brant_test(model_result) -> pd.DataFrame:
+    """Approximate the Brant test for proportional odds assumptions.
+
+    Parameters
+    ----------
+    model_result : statsmodels.miscmodels.ordinal_model.OrderedResults
+        Fitted statsmodels ordered logit result object.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Variance of coefficients across cumulative thresholds as a heuristic
+        indicator for proportional odds violations.
     """
-    Placeholder Brant test approximation: we compare coefficients across
-    thresholds by fitting separate binary logits (cumulative splits) and
-    testing equality via simple variance-based z. This is a heuristic
-    since statsmodels doesn't expose a direct Brant test.
-    """
+
     endog = model_result.model.endog
     exog = model_result.model.exog
     exog_names = model_result.model.exog_names
@@ -95,11 +144,6 @@ def brant_test(model_result) -> pd.DataFrame:
     stat = coefs.var(axis=1)
     return pd.DataFrame({'feature': stat.index, 'coef_variance': stat.values})
 
-
-# -------------------------
-# Modeling helpers
-# -------------------------
-
 @dataclass
 class OLRConfig:
     target_col: str = 'target'
@@ -124,6 +168,21 @@ class OLRArtifacts:
 
 
 def split_data(df: pd.DataFrame, cfg: OLRConfig) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Split the dataset into stratified train and test partitions.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset to be split.
+    cfg : OLRConfig
+        Configuration containing split proportions and target column name.
+
+    Returns
+    -------
+    tuple of pandas.DataFrame
+        Training and testing subsets preserving class balance.
+    """
+
     train_df, test_df = train_test_split(
         df, test_size=cfg.test_size, random_state=cfg.random_state, stratify=df[cfg.target_col]
     )
@@ -131,11 +190,21 @@ def split_data(df: pd.DataFrame, cfg: OLRConfig) -> Tuple[pd.DataFrame, pd.DataF
 
 
 def log_transform_features(df: pd.DataFrame, target_col: str) -> pd.DataFrame:
+    """Apply a log transform to non-target features with automatic shifting.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Dataset whose numeric predictors require transformation.
+    target_col : str
+        Name of the target column to exclude from transformation.
+
+    Returns
+    -------
+    pandas.DataFrame
+        DataFrame with ``log1p`` applied to non-target numeric columns.
     """
-    Apply log(1 + x_shifted) to all non-target columns.
-    For any column with min <= 0, shift by (1 - min) to ensure positivity.
-    Works only on numeric columns; non-numerics (if any) are ignored.
-    """
+
     df_t = df.copy()
     for col in df_t.columns:
         if col == target_col:
@@ -148,6 +217,24 @@ def log_transform_features(df: pd.DataFrame, target_col: str) -> pd.DataFrame:
 
 
 def fit_olr(train_df: pd.DataFrame, features: List[str], cfg: OLRConfig):
+    """Fit an ordered logistic regression model on the training data.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training dataset containing predictors and the target column.
+    features : list of str
+        Predictor column names used in the model.
+    cfg : OLRConfig
+        Configuration specifying the distribution and target column.
+
+    Returns
+    -------
+    tuple
+        Tuple containing the statsmodels ``OrderedModel`` instance and the
+        fitted result object.
+    """
+
     y = train_df[cfg.target_col]
     X = train_df[features]
     model = OrderedModel(y, X, distr=cfg.distr)
@@ -156,12 +243,49 @@ def fit_olr(train_df: pd.DataFrame, features: List[str], cfg: OLRConfig):
 
 
 def predict_prob(model: OrderedModel, res, X: pd.DataFrame) -> np.ndarray:
+    """Predict class membership probabilities for each observation.
+
+    Parameters
+    ----------
+    model : statsmodels.miscmodels.ordinal_model.OrderedModel
+        Trained ordered logistic regression model.
+    res : statsmodels.miscmodels.ordinal_model.OrderedResults
+        Fitted result object containing optimized parameters.
+    X : pandas.DataFrame
+        Explanatory variables for which predictions are required.
+
+    Returns
+    -------
+    numpy.ndarray
+        Array of per-class probabilities.
+    """
+
     pred = res.model.predict(res.params, exog=X)
     # returns probabilities for each class
     return np.asarray(pred)
 
 
 def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List[str], cfg: OLRConfig) -> OLRArtifacts:
+    """Run diagnostics, fit the model, and compute evaluation metrics.
+
+    Parameters
+    ----------
+    train_df : pandas.DataFrame
+        Training dataset used for fitting and diagnostic checks.
+    test_df : pandas.DataFrame
+        Hold-out dataset used for evaluation metrics.
+    features : list of str
+        Predictor names supplied to the model.
+    cfg : OLRConfig
+        Pipeline configuration containing modeling hyperparameters.
+
+    Returns
+    -------
+    OLRArtifacts
+        Structured artifacts encompassing diagnostics, ROC data, and
+        evaluation results.
+    """
+
     # Global log transformation on all non-target features before anything else
     train_df = log_transform_features(train_df, cfg.target_col)
     test_df = log_transform_features(test_df, cfg.target_col)
@@ -243,6 +367,23 @@ def evaluate_model(train_df: pd.DataFrame, test_df: pd.DataFrame, features: List
 
 
 def save_artifacts(art: OLRArtifacts, charts_dir: str = 'charts', metrics_dir: str = 'metrics') -> Dict[str, str]:
+    """Persist visualizations and tabular diagnostics generated by the model.
+
+    Parameters
+    ----------
+    art : OLRArtifacts
+        Collection of evaluation outputs from ``evaluate_model``.
+    charts_dir : str, optional
+        Directory used to store generated plots.
+    metrics_dir : str, optional
+        Directory used to store text and CSV metrics.
+
+    Returns
+    -------
+    dict
+        Mapping of artifact identifiers to the file paths where they were saved.
+    """
+
     import os
     os.makedirs(charts_dir, exist_ok=True)
     os.makedirs(metrics_dir, exist_ok=True)
@@ -374,6 +515,21 @@ def save_artifacts(art: OLRArtifacts, charts_dir: str = 'charts', metrics_dir: s
 
 
 def run_olr_pipeline(df: pd.DataFrame, target_col: str = 'target') -> Tuple[OLRArtifacts, Dict[str, str]]:
+    """Execute the full ordered logistic regression pipeline.
+
+    Parameters
+    ----------
+    df : pandas.DataFrame
+        Prepared dataset containing predictors and target column.
+    target_col : str, optional
+        Name of the target column within ``df``.
+
+    Returns
+    -------
+    tuple
+        Fitted artifacts and a dictionary of saved artifact paths.
+    """
+
     cfg = OLRConfig(target_col=target_col)
     # Define features: all except target
     features = [c for c in df.columns if c != target_col]
