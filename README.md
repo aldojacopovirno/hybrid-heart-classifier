@@ -30,7 +30,7 @@ A modular research pipeline for ordinal and multi-class heart disease classifica
   - Ordinal-encode target, one-hot encode `thal`, integer encode other categoricals.
   - Standardize continuous variables with `StandardScaler`.
 
-> Place the raw CSV at `data/heart_disease_uci.csv` (not versioned).
+> Place the raw CSV at `data/heart_disease_uci.csv`.
 
 ## 2. Pipeline Architecture (`main.py`)
 1. **Load & Encode** (`script/encoder.py`, `script/onehot_encoding.py`): data ingestion, categorical transforms.
@@ -100,4 +100,4 @@ Adjust defaults either via CLI flags (extend `argparse` block in `main.py`) or b
 4. Ensure generated assets are reproducible; do not commit large binaries.
 
 ## 8. License
-Released under the MIT License—see `LICENSE`.
+Released under the MIT License - see `LICENSE`.
