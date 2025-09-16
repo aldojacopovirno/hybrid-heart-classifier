@@ -21,7 +21,7 @@ A modular research pipeline for ordinal and multi-class heart disease classifica
 └── LICENSE                     # MIT License
 ```
 
-## Pipeline Architecture (`main.py`)
+## Architecture
 1. **Load & Encode** (`script/encoder.py`, `script/onehot_encoding.py`): data ingestion, categorical transforms.
 2. **Processing** (`script/processing.py`): type casting, imputation, scaling.
 3. **EDA** (`script/eda.py`): summary statistics, correlation heatmaps, density plots, class distribution charts (saved under `charts/`).
