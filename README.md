@@ -3,7 +3,6 @@
 A modular research pipeline for ordinal and multi-class heart disease classification on the UCI Cleveland dataset. The project compares probabilistic (Ordinal Logistic Regression), tree-based (Random Forest, XGBoost), and neural (MLP) baselines deployed under a shared preprocessing, evaluation, and reporting framework.
 
 ```
-.
 ├── main.py                     # Entry point: orchestrates the full pipeline
 ├── script/
 │   ├── encoder.py              # Data ingestion, categorical encoding
