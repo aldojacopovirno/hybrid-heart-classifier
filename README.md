@@ -1,5 +1,10 @@
 # Optimizing Heart Disease Classification Through Statistical–Mathematical Hybridization
 
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](requirements.txt)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Core Models](https://img.shields.io/badge/Models-OLR%20%7C%20RF%20%7C%20XGB%20%7C%20MLP-0B3D91)](script)
+[![Dataset](https://img.shields.io/badge/Dataset-UCI%20Cleveland%20Heart%20Disease-CC0000)](data)
+
 A modular research pipeline for ordinal and multi-class heart disease classification on the UCI Cleveland dataset. The project compares probabilistic (Ordinal Logistic Regression), tree-based (Random Forest, XGBoost), and neural (MLP) baselines deployed under a shared preprocessing, evaluation, and reporting framework.
 
 ```
